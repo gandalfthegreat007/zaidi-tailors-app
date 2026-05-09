@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Zaidi Tailors — ज़ैदी टेलर्स</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
+  :root{--primary:#1a1a2e;--accent:#e94560;--gold:#f5a623;--green:#00b894;--blue:#0984e3;--red:#d63031;--orange:#e17055;--surface:#fff;--surface2:#f8f9fa;--border:#e9ecef;--text:#1a1a2e;--text2:#636e72;--shadow:0 2px 12px rgba(0,0,0,0.08);--radius:14px;--radius-sm:8px;--font:'Sora','Noto Sans Devanagari',sans-serif;--nav-h:64px}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:var(--font);background:var(--surface2);color:var(--text);min-height:100vh;overflow-x:hidden}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--primary);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 20px rgba(0,0,0,.3)}
+  .topbar-logo{display:flex;flex-direction:column}
+  .topbar-logo .en{font-size:17px;font-weight:700;color:#fff;letter-spacing:.3px}
+  .topbar-logo .hi{font-size:11px;color:var(--gold);font-weight:500}
+  .topbar-right{display:flex;align-items:center;gap:10px}
+  .lang-toggle{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+  .bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--surface);border-top:1px solid var(--border);display:flex;height:60px;box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+  .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:none;color:var(--text2);font-family:var(--font);padding:6px 2px 2px}
+  .nav-item.active{color:var(--accent)}
+  .nav-icon{font-size:22px;line-height:1}
+  .nav-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .page-wrap{padding-top:calc(var(--nav-h) + 12px);padding-bottom:80px;min-height:100vh}
+  .page-inner{padding:0 12px;max-width:600px;margin:0 auto}
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .section-title{font-size:20px;font-weight:700;color:var(--text)}
+  .section-title .sub{font-size:11px;color:var(--text2);font-weight:400;display:block}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:11px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:var(--font);transition:all .18s;white-space:nowrap}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:#c73652;transform:translateY(-1px)}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+  .btn-sm{padding:7px 12px;font-size:11px}
+  .fab{position:fixed;bottom:76px;right:16px;z-index:90;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(233,69,96,.45);cursor:pointer;transition:all .2s}
+  .fab:hover{transform:scale(1.08)}
+  .card{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid var(--border);cursor:pointer;transition:all .18s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+  .card-flat{cursor:default}.card-flat:hover{transform:none;box-shadow:var(--shadow)}
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .stat-card{border-radius:var(--radius);padding:16px 14px;color:#fff;position:relative;overflow:hidden}
+  .stat-card::after{content:'';position:absolute;right:-10px;top:-10px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.1)}
+  .stat-card.green{background:linear-gradient(135deg,#00b894,#00cec9)}
+  .stat-card.orange{background:linear-gradient(135deg,#e17055,#fdcb6e)}
+  .stat-card.blue{background:linear-gradient(135deg,#0984e3,#74b9ff)}
+  .stat-card.red{background:linear-gradient(135deg,#d63031,#e17055)}
+  .stat-icon{font-size:22px;margin-bottom:6px}
+  .stat-value{font-size:22px;font-weight:700;line-height:1}
+  .stat-label{font-size:10px;opacity:.85;margin-top:3px;font-weight:500}
+  .badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-pending{background:#fff3cd;color:#856404}
+  .badge-progress{background:#cfe2ff;color:#084298}
+  .badge-ready{background:#d1e7dd;color:#0f5132}
+  .badge-delivered{background:#e2e3e5;color:#41464b}
+  .badge-cancelled{background:#f8d7da;color:#842029}
+  .order-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+  .order-name{font-size:16px;font-weight:700}
+  .order-phone{font-size:11px;color:var(--text2);margin-top:1px}
+  .order-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .meta-chip{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--text2)}
+  .meta-chip strong{color:var(--text)}
+  .order-amounts{display:flex;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+  .amount-block{flex:1;text-align:center}
+  .amount-block .label{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+  .amount-block .value{font-size:15px;font-weight:700;color:var(--text);margin-top:1px}
+  .amount-block .value.red{color:var(--red)}
+  .amount-block .value.green{color:var(--green)}
+  .form-section{margin-bottom:20px}
+  .form-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+  .form-group.full{grid-column:1/-1}
+  .form-group label{font-size:11px;font-weight:600;color:var(--text2)}
+  .form-group label .hi{font-size:10px;color:var(--accent);margin-left:4px}
+  .form-group input,.form-group select,.form-group textarea{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-size:14px;font-family:var(--font);background:var(--surface);color:var(--text);width:100%;transition:border-color .2s;-webkit-appearance:none}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent)}
+  .form-group textarea{resize:vertical;min-height:72px}
+  .form-actions{display:flex;gap:10px;margin-top:20px}
+  .form-actions .btn{flex:1;justify-content:center;padding:14px}
+  .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:flex-end}
+  .modal{background:var(--surface);width:100%;max-height:92vh;border-radius:20px 20px 0 0;overflow-y:auto;padding:20px 16px 32px;animation:slideUp .3s ease}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .modal-title{font-size:18px;font-weight:700}
+  .modal-close{width:34px;height:34px;border:none;background:var(--surface2);border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  /* ── SEARCHABLE DROPDOWN ── */
+  .sdrop-wrap{position:relative;width:100%}
+  .sdrop-input-row{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);overflow:hidden;transition:border-color .2s}
+  .sdrop-input-row:focus-within{border-color:var(--accent)}
+  .sdrop-input-row input{border:none;outline:none;padding:12px 14px;font-size:14px;font-family:var(--font);flex:1;background:transparent;color:var(--text)}
+  .sdrop-arrow{padding:0 12px;background:none;border:none;font-size:13px;cursor:pointer;color:var(--text2);flex-shrink:0}
+  .sdrop-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);z-index:300;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  .sdrop-item{padding:10px 14px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s}
+  .sdrop-item:last-child{border-bottom:none}
+  .sdrop-item:hover,.sdrop-item.hi{background:var(--surface2)}
+  .sdrop-main{font-weight:600;color:var(--text)}
+  .sdrop-sub{font-size:11px;color:var(--text2);margin-top:1px}
+  .sdrop-empty{padding:14px;font-size:13px;color:var(--text2);text-align:center}
+  /* ── SEARCH BAR ── */
+  .search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px}
+  .search-bar:focus-within{border-color:var(--accent)}
+  .search-bar input{border:none;background:none;font-size:14px;flex:1;font-family:var(--font);outline:none;color:var(--text)}
+  .search-clear{background:none;border:none;cursor:pointer;font-size:14px;color:var(--text2);flex-shrink:0;padding:0}
+  /* ── INVENTORY ── */
+  .inv-bar-wrap{background:var(--surface2);border-radius:4px;height:6px;margin:10px 0;overflow:hidden}
+  .inv-bar{height:100%;border-radius:4px;transition:width .5s ease}
+  .inv-stats{display:flex;justify-content:space-between;font-size:12px}
+  .inv-brand{font-size:12px;color:var(--text2);margin-top:2px}
+  /* ── CUSTOMERS ── */
+  .customer-row{display:flex;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}
+  .customer-row:last-child{border-bottom:none}
+  .customer-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--orange));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;margin-right:12px;cursor:pointer}
+  .customer-info{flex:1;min-width:0;cursor:pointer}
+  .customer-name{font-size:15px;font-weight:600}
+  .customer-sub{font-size:11px;color:var(--text2);margin-top:2px}
+  .customer-actions{display:flex;gap:6px}
+  /* ── MEASUREMENTS ── */
+  .meas-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .meas-item{background:var(--surface2);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+  .meas-label{font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .meas-label .hi{color:var(--accent);font-size:9px}
+  .meas-value{font-size:17px;font-weight:700;color:var(--text)}
+  .meas-unit{font-size:9px;color:var(--text2)}
+  /* ── REPORTS ── */
+  .report-tab-row{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+  .report-tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-family:var(--font);transition:all .18s}
+  .report-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .report-kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .report-kpi{background:var(--surface);border-radius:var(--radius);padding:14px;border:1px solid var(--border)}
+  .report-kpi .label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+  .report-kpi .value{font-size:20px;font-weight:700;margin-top:4px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .bar-label{width:70px;font-size:11px;color:var(--text2);flex-shrink:0}
+  .bar-track{flex:1;background:var(--surface2);border-radius:4px;height:22px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:#fff;transition:width .6s ease}
+  /* ── FILTER ── */
+  .filter-row{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
+  .filter-chip{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-family:var(--font);flex-shrink:0;transition:all .18s}
+  .filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  /* ── TOAST ── */
+  .toast{position:fixed;top:74px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 22px;border-radius:30px;font-size:13px;font-weight:600;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,.25);animation:fadeD .3s ease;white-space:nowrap}
+  @keyframes fadeD{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+  /* ── VOICE ── */
+  .voice-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:11px 12px;cursor:pointer;font-size:18px;color:var(--text2);flex-shrink:0}
+  .voice-btn.listening{background:var(--accent);border-color:var(--accent);color:#fff;animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(233,69,96,.4)}50%{box-shadow:0 0 0 8px rgba(233,69,96,0)}}
+  /* ── PRODUCT PILLS ── */
+  .product-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .product-pill{padding:10px 16px;border-radius:10px;border:2px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font);transition:all .18s;text-align:center}
+  .product-pill .hi{font-size:10px;color:var(--text2);display:block}
+  .product-pill.selected{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .product-pill.selected .hi{color:var(--gold)}
+  /* ── SOURCE PILLS ── */
+  .source-pills{display:flex;gap:10px}
+  .source-pill{flex:1;padding:12px;border-radius:10px;border:2px solid var(--border);background:var(--surface);cursor:pointer;text-align:center;font-family:var(--font);transition:all .18s}
+  .source-pill .icon{font-size:20px}
+  .source-pill .text{font-size:12px;font-weight:600;display:block;margin-top:4px}
+  .source-pill .sub{font-size:10px;color:var(--text2);display:block}
+  .source-pill.selected{border-color:var(--accent);background:#fff0f3}
+  /* ── MISC ── */
+  .empty{text-align:center;padding:48px 20px;color:var(--text2)}
+  .empty .icon{font-size:48px;margin-bottom:12px}
+  .empty .text{font-size:15px;font-weight:500}
+  .quick-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+  .quick-card{background:var(--surface);border-radius:var(--radius);padding:16px 8px;text-align:center;cursor:pointer;border:1px solid var(--border);box-shadow:var(--shadow);transition:all .18s}
+  .quick-card:hover{transform:translateY(-2px)}
+  .quick-card .q-icon{font-size:28px}
+  .quick-card .q-label{font-size:10px;font-weight:600;color:var(--text2);margin-top:6px}
+  .alert-banner{background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .alert-banner .icon{font-size:20px;flex-shrink:0}
+  .alert-banner .text{font-size:12px;font-weight:600;color:#856404}
+  .detail-header{background:var(--primary);margin:0 -16px;padding:20px 20px 24px;margin-top:-20px;margin-bottom:20px}
+  .detail-name{font-size:22px;font-weight:700;color:#fff}
+  .detail-sub{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+  .detail-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+  .detail-row:last-child{border-bottom:none}
+  .detail-key{font-size:12px;color:var(--text2)}
+  .detail-val{font-size:14px;font-weight:600}
+  .divider{height:1px;background:var(--border);margin:14px 0}
+  .text-red{color:var(--red)}.text-green{color:var(--green)}
+  .config-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .config-name{flex:1}
+  .config-name .en{font-size:14px;font-weight:600}
+  .config-name .hi{font-size:11px;color:var(--accent)}
+  .config-input{width:90px;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;font-family:var(--font);text-align:center}
+  .tag-auto{display:inline-block;font-size:9px;padding:1px 7px;border-radius:8px;font-weight:700;margin-left:5px;background:#d1e7dd;color:#0f5132;vertical-align:middle}
+  .tag-manual{display:inline-block;font-size:9px;padding:1px 7px;border-radius:8px;font-weight:700;margin-left:5px;background:#fff3cd;color:#856404;vertical-align:middle}
+  .reset-link{font-size:10px;color:var(--orange);cursor:pointer;margin-top:3px;text-decoration:underline;display:inline-block}
+  ::-webkit-scrollbar{width:4px;height:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+const {useState,useEffect,useCallback,useRef,useMemo}=React;
+
+// ── i18n ──────────────────────────────────────────────────────────────────────
+const TR={
+  en:{
+    nav:{dashboard:'Dashboard',orders:'Orders',customers:'Customers',measurements:'Measurements',inventory:'Inventory'},
+    dash:{ordersToday:'Orders Today',pendingDel:'Pending Deliveries',revenue:'Revenue Today',pendingPay:'Pending Payments',quickActions:'Quick Actions',newOrder:'New Order',addStock:'Add Stock',addCustomer:'Add Customer',recentOrders:'Recent Orders',lowStock:'Low Stock Alert'},
+    orders:{title:'Orders',new:'New Order',name:'Customer Name',phone:'Phone',selectCloth:'Select Cloth Roll',meters:'Meters Used',stitching:'Stitching Price ₹',material:'Material Cost ₹',total:'Total',advance:'Advance Paid ₹',pending:'Pending ₹',delivery:'Delivery Date',notes:'Notes',status:'Status',save:'Save Order',update:'Update',whatsapp:'WhatsApp',print:'Print',all:'All',statuses:{pending:'Pending',in_progress:'In Progress',ready:'Ready',delivered:'Delivered',cancelled:'Cancelled'},shopCloth:'Shop Cloth',ownCloth:"Customer's Cloth"},
+    inv:{title:'Inventory',add:'Add Stock',brand:'Brand',type:'Cloth Type',color:'Color',total:'Total Meters',available:'Available',costPerM:'Cost/Meter ₹',sellPerM:'Sell Price/Meter ₹',date:'Date Added',save:'Save',lowStock:'Low Stock',search:'Search brand, cloth type, color…'},
+    cust:{title:'Customers',add:'Add Customer',name:'Name',phone:'Phone',address:'Address',notes:'Notes',save:'Save',search:'Search by name, phone, city…',measurements:'Measurements',orders:'Orders',noMeas:'No measurements yet'},
+    meas:{title:'Measurements',add:'Add Measurements',label:'Label',shoulder:'Shoulder',chest:'Chest',waist:'Waist',hip:'Hip',sleeve:'Sleeve',length:'Length',collar:'Collar',pantLen:'Pant Length',thigh:'Thigh',bottom:'Bottom',save:'Save Measurements',search:'Search by customer name, phone…'},
+    rep:{title:'Reports',sales:'Sales',inventory:'Inventory',customers:'Top Customers',totalOrders:'Total Orders',totalRev:'Total Revenue',collected:'Collected',pending:'Pending',byProduct:'By Product',topCust:'Top Customers',orders:'orders'},
+    settings:{title:'Settings',prodConfig:'Product Cloth Settings',saveAll:'Save All'},
+    common:{save:'Save',cancel:'Cancel',delete:'Delete',edit:'Edit',loading:'Loading…',noData:'No data yet',confirm:'Are you sure?',success:'Saved!',error:'Error!'}
+  },
+  hi:{
+    nav:{dashboard:'होम',orders:'ऑर्डर',customers:'ग्राहक',measurements:'नाप',inventory:'स्टॉक'},
+    dash:{ordersToday:'आज के ऑर्डर',pendingDel:'बाकी डिलीवरी',revenue:'आज की कमाई',pendingPay:'बकाया भुगतान',quickActions:'जल्दी काम',newOrder:'नया ऑर्डर',addStock:'स्टॉक जोड़ें',addCustomer:'ग्राहक जोड़ें',recentOrders:'हाल के ऑर्डर',lowStock:'कम स्टॉक अलर्ट'},
+    orders:{title:'ऑर्डर',new:'नया ऑर्डर',name:'ग्राहक का नाम',phone:'फोन नंबर',selectCloth:'कपड़ा चुनें',meters:'मीटर इस्तेमाल',stitching:'सिलाई ₹',material:'कपड़ा लागत ₹',total:'कुल रकम',advance:'अग्रिम भुगतान ₹',pending:'बकाया ₹',delivery:'डिलीवरी तारीख',notes:'नोट',status:'स्थिति',save:'ऑर्डर सहेजें',update:'अपडेट करें',whatsapp:'व्हाट्सएप',print:'प्रिंट',all:'सभी',statuses:{pending:'बाकी है',in_progress:'चल रहा है',ready:'तैयार है',delivered:'दे दिया',cancelled:'रद्द'},shopCloth:'दुकान का कपड़ा',ownCloth:'ग्राहक का कपड़ा'},
+    inv:{title:'कपड़ा स्टॉक',add:'स्टॉक जोड़ें',brand:'ब्रांड',type:'कपड़े का प्रकार',color:'रंग',total:'कुल मीटर',available:'बचा हुआ',costPerM:'लागत/मीटर ₹',sellPerM:'बिक्री/मीटर ₹',date:'तारीख',save:'सहेजें',lowStock:'कम स्टॉक',search:'ब्रांड, रंग, कपड़ा खोजें…'},
+    cust:{title:'ग्राहक',add:'ग्राहक जोड़ें',name:'नाम',phone:'फोन',address:'पता',notes:'नोट',save:'सहेजें',search:'नाम, फोन, शहर खोजें…',measurements:'नाप',orders:'ऑर्डर',noMeas:'कोई नाप नहीं'},
+    meas:{title:'नाप',add:'नाप जोड़ें',label:'लेबल',shoulder:'कंधा',chest:'छाती',waist:'कमर',hip:'कूल्हा',sleeve:'बांह',length:'लंबाई',collar:'गला',pantLen:'पैंट लंबाई',thigh:'जांघ',bottom:'घेरा',save:'नाप सहेजें',search:'ग्राहक का नाम, फोन खोजें…'},
+    rep:{title:'रिपोर्ट',sales:'बिक्री',inventory:'कपड़ा',customers:'मुख्य ग्राहक',totalOrders:'कुल ऑर्डर',totalRev:'कुल आमदनी',collected:'मिला',pending:'बाकी',byProduct:'उत्पाद अनुसार',topCust:'मुख्य ग्राहक',orders:'ऑर्डर'},
+    settings:{title:'सेटिंग',prodConfig:'कपड़ा खपत सेटिंग',saveAll:'सभी सहेजें'},
+    common:{save:'सहेजें',cancel:'रद्द करें',delete:'हटाएं',edit:'बदलें',loading:'लोड हो रहा है…',noData:'कोई डेटा नहीं',confirm:'क्या आप निश्चित हैं?',success:'सफलतापूर्वक सहेजा!',error:'गड़बड़ हुई!'}
+  }
+};
+
+const STORE_KEY='zt_v5';
+const defaultData={
+  inventory:[
+    {id:'I001',brand:'Raymond',cloth_type:'Cotton',color:'White',total_meters:50,meters_available:35,cost_per_meter:320,sell_per_meter:512,date_added:'2026-05-01',notes:''},
+    {id:'I003',brand:'Siyaram',cloth_type:'Linen',color:'Light Grey',total_meters:30,meters_available:30,cost_per_meter:0,sell_per_meter:0,date_added:'2026-05-03',notes:''},
+    {id:'I004',brand:'Raymond',cloth_type:'Linen',color:'Light Grey',total_meters:30,meters_available:30,cost_per_meter:0,sell_per_meter:0,date_added:'2026-05-03',notes:''},
+    {id:'I005',brand:'Raymond',cloth_type:'Linen',color:'Blue',total_meters:20,meters_available:20,cost_per_meter:500,sell_per_meter:800,date_added:'2026-05-04',notes:''},
+  ],
+  customers:[
+    {id:'C001',name:'Shahid Ali',phone:'9876543210',address:'Burail',notes:''},
+    {id:'C002',name:'Rakesh',phone:'',address:'Sector 50',notes:''},
+    {id:'C003',name:'shahzeb',phone:'',address:'Zirakpur, Punjab',notes:''},
+    {id:'C004',name:'laraib',phone:'',address:'Zirakpur, Punjab',notes:''},
+    {id:'C005',name:'mushu',phone:'',address:'Mumbai, Maharashtra',notes:''},
+  ],
+  measurements:[
+    {id:'M001',customer_id:'C001',label:'Default',shoulder:17,chest:40,waist:34,hip:38,sleeve:24,length:42,collar:15,pant_length:42,thigh:24,bottom:18,created_at:'2026-05-01'},
+    {id:'M002',customer_id:'C005',label:'Default',shoulder:18,chest:42,waist:36,hip:40,sleeve:25,length:43,collar:16,pant_length:43,thigh:26,bottom:19,created_at:'2026-05-02'},
+  ],
+  orders:[
+    {id:'320618fd',customer_id:'C004',customer_name:'laraib',customer_phone:'',product:'Suit',cloth_source:'shop',inventory_id:'I003',meters_used:1.8,stitching_price:500,material_cost:2400,total_amount:2900,advance_paid:0,pending_amount:2900,delivery_date:'2026-05-06',status:'pending',notes:'',created_at:'2026-05-04'},
+    {id:'7cf287d6',customer_id:'C005',customer_name:'mushu',customer_phone:'',product:'Coat',cloth_source:'shop',inventory_id:'I003',meters_used:5,stitching_price:3000,material_cost:5000,total_amount:8000,advance_paid:2000,pending_amount:6000,delivery_date:'2026-05-11',status:'pending',notes:'',created_at:'2026-05-04'},
+    {id:'a941d736',customer_id:'C001',customer_name:'Shahid Ali',customer_phone:'9876543210',product:'Pant',cloth_source:'shop',inventory_id:'I005',meters_used:1.8,stitching_price:500,material_cost:1440,total_amount:1940,advance_paid:0,pending_amount:1940,delivery_date:'2026-05-11',status:'pending',notes:'',created_at:'2026-05-04'},
+    {id:'95529654',customer_id:'C003',customer_name:'shahzeb',customer_phone:'',product:'Pant',cloth_source:'shop',inventory_id:'I001',meters_used:1.8,stitching_price:500,material_cost:576,total_amount:1076,advance_paid:240,pending_amount:836,delivery_date:'2026-05-13',status:'in_progress',notes:'',created_at:'2026-05-05'},
+  ],
+  productConfig:[
+    {id:'P1',name:'Shirt',nameHi:'कमीज',meters:1.8},{id:'P2',name:'Pant',nameHi:'पैंट',meters:1.3},
+    {id:'P3',name:'Coat',nameHi:'कोट',meters:3.0},{id:'P4',name:'Suit',nameHi:'सूट',meters:4.5},
+    {id:'P5',name:'Kurta',nameHi:'कुर्ता',meters:2.5},{id:'P6',name:'Salwar',nameHi:'सलवार',meters:2.0},
+    {id:'P7',name:'Sherwani',nameHi:'शेरवानी',meters:5.0},
+  ]
+};
+
+const loadData=()=>{try{const d=JSON.parse(localStorage.getItem(STORE_KEY));return d||defaultData;}catch{return defaultData;}};
+const saveData=d=>localStorage.setItem(STORE_KEY,JSON.stringify(d));
+const uid=()=>Math.random().toString(36).slice(2,10);
+const fmt=n=>`₹${Number(n||0).toLocaleString('en-IN')}`;
+const fmtDate=d=>{if(!d)return'—';return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});};
+const today=()=>new Date().toISOString().split('T')[0];
+const hits=(v,q)=>String(v||'').toLowerCase().includes(q);
+
+const statusBadge=s=>{
+  const cls={pending:'badge-pending',in_progress:'badge-progress',ready:'badge-ready',delivered:'badge-delivered',cancelled:'badge-cancelled'};
+  const em={pending:'🕐',in_progress:'✂️',ready:'✅',delivered:'📦',cancelled:'❌'};
+  return React.createElement('span',{className:`badge ${cls[s]||'badge-pending'}`},em[s],' ',s?.replace('_',' '));
+};
+
+// ── SEARCHABLE DROPDOWN ───────────────────────────────────────────────────────
+// Used consistently in: Orders (cloth select), Measurements (customer select)
+function SearchDrop({value,onChange,items,placeholder,renderLabel,renderSub,filterFn}){
+  const [q,setQ]=useState('');
+  const [open,setOpen]=useState(false);
+  const ref=useRef();
+  const sel=items.find(i=>i.id===value);
+
+  useEffect(()=>{
+    const h=e=>{if(ref.current&&!ref.current.contains(e.target)){setOpen(false);setQ('');}};
+    document.addEventListener('mousedown',h);return()=>document.removeEventListener('mousedown',h);
+  },[]);
+
+  const visible=q?items.filter(i=>filterFn?filterFn(i,q):hits(renderLabel(i),q)):items;
+
+  return React.createElement('div',{className:'sdrop-wrap',ref},
+    React.createElement('div',{className:'sdrop-input-row'},
+      React.createElement('input',{
+        value:open?q:(sel?renderLabel(sel):''),
+        placeholder:sel?renderLabel(sel):placeholder,
+        onFocus:()=>{setOpen(true);setQ('');},
+        onChange:e=>{setQ(e.target.value);setOpen(true);},
+      }),
+      sel&&!open&&React.createElement('button',{className:'sdrop-arrow',onMouseDown:e=>{e.preventDefault();onChange('');setQ('');}},,'✕'),
+      React.createElement('button',{className:'sdrop-arrow',onMouseDown:e=>{e.preventDefault();setOpen(o=>!o);}},'▾'),
+    ),
+    open&&React.createElement('div',{className:'sdrop-list'},
+      visible.length===0
+        ?React.createElement('div',{className:'sdrop-empty'},'No results')
+        :visible.map(i=>React.createElement('div',{key:i.id,className:`sdrop-item ${value===i.id?'hi':''}`,
+            onMouseDown:e=>{e.preventDefault();onChange(i.id);setQ('');setOpen(false);}},
+            React.createElement('div',{className:'sdrop-main'},renderLabel(i)),
+            renderSub&&React.createElement('div',{className:'sdrop-sub'},renderSub(i)),
+          ))
+    )
+  );
+}
+
+// ── UNIVERSAL SEARCH BAR ──────────────────────────────────────────────────────
+function SearchBar({value,onChange,placeholder}){
+  return React.createElement('div',{className:'search-bar'},
+    React.createElement('span',null,'🔍'),
+    React.createElement('input',{value,onChange:e=>onChange(e.target.value),placeholder}),
+    value&&React.createElement('button',{className:'search-clear',onClick:()=>onChange('')},'✕'),
+  );
+}
+
+// ── APP ───────────────────────────────────────────────────────────────────────
+function App(){
+  const [lang,setLang]=useState(()=>localStorage.getItem('zt_lang')||'en');
+  const [page,setPage]=useState('dashboard');
+  const [data,setData]=useState(loadData);
+  const [toast,setToast]=useState('');
+
+  const t=useCallback((k)=>{const keys=k.split('.');let v=TR[lang];for(const kk of keys)v=v?.[kk];return v??k;},[lang]);
+  const toggleLang=()=>{const n=lang==='en'?'hi':'en';setLang(n);localStorage.setItem('zt_lang',n);};
+  const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(''),2200);};
+  const update=fn=>setData(prev=>{const next=fn(prev);saveData(next);return next;});
+
+  const navItems=[
+    {id:'dashboard',icon:'🏠',label:t('nav.dashboard')},
+    {id:'orders',icon:'📋',label:t('nav.orders')},
+    {id:'customers',icon:'👥',label:t('nav.customers')},
+    {id:'measurements',icon:'📐',label:t('nav.measurements')},
+    {id:'inventory',icon:'🏪',label:t('nav.inventory')},
+  ];
+
+  const pg={
+    dashboard:React.createElement(DashboardPage,{t,data,setPage}),
+    orders:React.createElement(OrdersPage,{t,data,update,showToast,lang}),
+    customers:React.createElement(CustomersPage,{t,data,update,showToast}),
+    measurements:React.createElement(MeasurementsPage,{t,data,update,showToast}),
+    inventory:React.createElement(InventoryPage,{t,data,update,showToast}),
+    reports:React.createElement(ReportsPage,{t,data}),
+    settings:React.createElement(SettingsPage,{t,data,update,showToast}),
+  };
+
+  return React.createElement('div',null,
+    React.createElement('header',{className:'topbar'},
+      React.createElement('div',{className:'topbar-logo'},
+        React.createElement('span',{className:'en'},'🧵 Zaidi Tailors'),
+        React.createElement('span',{className:'hi'},'ज़ैदी टेलर्स'),
+      ),
+      React.createElement('div',{className:'topbar-right'},
+        React.createElement('button',{className:'btn btn-sm btn-ghost',style:{padding:'6px 10px'},onClick:()=>setPage(p=>p==='reports'?'dashboard':'reports')},'📊'),
+        React.createElement('button',{className:'btn btn-sm btn-ghost',style:{padding:'6px 10px'},onClick:()=>setPage(p=>p==='settings'?'dashboard':'settings')},'⚙️'),
+        React.createElement('button',{className:'lang-toggle',onClick:toggleLang},lang==='en'?'हिंदी':'English'),
+      )
+    ),
+    toast&&React.createElement('div',{className:'toast'},toast),
+    React.createElement('div',{className:'page-wrap'},React.createElement('div',{className:'page-inner'},pg[page]||pg.dashboard)),
+    React.createElement('nav',{className:'bottomnav'},
+      navItems.map(n=>React.createElement('button',{key:n.id,className:`nav-item ${page===n.id?'active':''}`,onClick:()=>setPage(n.id)},
+        React.createElement('span',{className:'nav-icon'},n.icon),
+        React.createElement('span',{className:'nav-label'},n.label),
+      ))
+    ),
+  );
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function DashboardPage({t,data,setPage}){
+  const ts=today();
+  const ordersToday=data.orders.filter(o=>o.created_at?.startsWith(ts)).length;
+  const pendingDel=data.orders.filter(o=>o.delivery_date<=ts&&!['delivered','cancelled'].includes(o.status)).length;
+  const revenue=data.orders.filter(o=>o.created_at?.startsWith(ts)&&o.status!=='cancelled').reduce((s,o)=>s+Number(o.total_amount||0),0);
+  const pendingPay=data.orders.filter(o=>!['delivered','cancelled'].includes(o.status)).reduce((s,o)=>s+Number(o.pending_amount||0),0);
+  const lowStock=data.inventory.filter(i=>i.meters_available<2);
+  const recent=[...data.orders].sort((a,b)=>b.created_at?.localeCompare(a.created_at)).slice(0,4);
+  return React.createElement('div',null,
+    React.createElement('div',{className:'stats-grid'},
+      React.createElement('div',{className:'stat-card green'},React.createElement('div',{className:'stat-icon'},'📋'),React.createElement('div',{className:'stat-value'},ordersToday),React.createElement('div',{className:'stat-label'},t('dash.ordersToday'))),
+      React.createElement('div',{className:'stat-card orange'},React.createElement('div',{className:'stat-icon'},'🚚'),React.createElement('div',{className:'stat-value'},pendingDel),React.createElement('div',{className:'stat-label'},t('dash.pendingDel'))),
+      React.createElement('div',{className:'stat-card blue'},React.createElement('div',{className:'stat-icon'},'💰'),React.createElement('div',{className:'stat-value'},fmt(revenue)),React.createElement('div',{className:'stat-label'},t('dash.revenue'))),
+      React.createElement('div',{className:'stat-card red'},React.createElement('div',{className:'stat-icon'},'⏳'),React.createElement('div',{className:'stat-value'},fmt(pendingPay)),React.createElement('div',{className:'stat-label'},t('dash.pendingPay'))),
+    ),
+    React.createElement('div',{className:'section-header'},React.createElement('h2',{className:'section-title'},t('dash.quickActions'))),
+    React.createElement('div',{className:'quick-grid'},
+      React.createElement('div',{className:'quick-card',onClick:()=>setPage('orders')},React.createElement('div',{className:'q-icon'},'➕'),React.createElement('div',{className:'q-label'},t('dash.newOrder'))),
+      React.createElement('div',{className:'quick-card',onClick:()=>setPage('inventory')},React.createElement('div',{className:'q-icon'},'📦'),React.createElement('div',{className:'q-label'},t('dash.addStock'))),
+      React.createElement('div',{className:'quick-card',onClick:()=>setPage('customers')},React.createElement('div',{className:'q-icon'},'👤'),React.createElement('div',{className:'q-label'},t('dash.addCustomer'))),
+    ),
+    lowStock.length>0&&React.createElement('div',{className:'alert-banner'},
+      React.createElement('span',{className:'icon'},'⚠️'),
+      React.createElement('span',{className:'text'},`${t('dash.lowStock')}: ${lowStock.map(i=>`${i.brand} ${i.cloth_type} (${i.meters_available}m)`).join(', ')}`)
+    ),
+    React.createElement('div',{className:'section-header'},React.createElement('h2',{className:'section-title'},t('dash.recentOrders'))),
+    recent.length===0?React.createElement('div',{className:'empty'},React.createElement('div',{className:'icon'},'📋'),React.createElement('div',{className:'text'},t('common.noData')))
+    :recent.map(o=>React.createElement(OrderCard,{key:o.id,order:o,t,compact:true}))
+  );
+}
+
+// ── ORDER CARD ────────────────────────────────────────────────────────────────
+function OrderCard({order:o,t,compact,onClick}){
+  return React.createElement('div',{className:'card',onClick},
+    React.createElement('div',{className:'order-card-header'},
+      React.createElement('div',null,React.createElement('div',{className:'order-name'},o.customer_name),React.createElement('div',{className:'order-phone'},o.customer_phone||'—')),
+      statusBadge(o.status),
+    ),
+    React.createElement('div',{className:'order-meta'},
+      React.createElement('div',{className:'meta-chip'},'✂️ ',React.createElement('strong',null,o.product)),
+      React.createElement('div',{className:'meta-chip'},'📅 ',React.createElement('strong',null,fmtDate(o.delivery_date))),
+      !compact&&React.createElement('div',{className:'meta-chip'},'📏 ',React.createElement('strong',null,(o.meters_used||0)+'m')),
+    ),
+    React.createElement('div',{className:'order-amounts'},
+      React.createElement('div',{className:'amount-block'},React.createElement('div',{className:'label'},t('orders.total')),React.createElement('div',{className:'value'},fmt(o.total_amount))),
+      React.createElement('div',{className:'amount-block'},React.createElement('div',{className:'label'},t('orders.advance')),React.createElement('div',{className:'value green'},fmt(o.advance_paid))),
+      React.createElement('div',{className:'amount-block'},React.createElement('div',{className:'label'},t('orders.pending')),React.createElement('div',{className:`value ${o.pending_amount>0?'red':''}`},fmt(o.pending_amount))),
+    )
+  );
+}
+
+// ── ORDERS PAGE ───────────────────────────────────────────────────────────────
+function OrdersPage({t,data,update,showToast,lang}){
+  const [filter,setFilter]=useState('all');
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [selected,setSelected]=useState(null);
+  const [editing,setEditing]=useState(null);
+
+  // Deep search across ALL fields including linked inventory & customer
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    return data.orders.filter(o=>{
+      if(filter!=='all'&&o.status!==filter)return false;
+      if(!q)return true;
+      const inv=data.inventory.find(i=>i.id===o.inventory_id);
+      const cust=data.customers.find(c=>c.id===o.customer_id||c.name===o.customer_name);
+      return[o.customer_name,o.customer_phone,o.product,o.status,o.notes,o.delivery_date,
+        inv?.cloth_type,inv?.color,inv?.brand,cust?.address,cust?.phone
+      ].some(v=>hits(v,q));
+    }).sort((a,b)=>b.created_at?.localeCompare(a.created_at));
+  },[data.orders,data.inventory,data.customers,filter,search]);
+
+  if(selected){
+    const o=data.orders.find(x=>x.id===selected);
+    if(!o){setSelected(null);return null;}
+    const inv=data.inventory.find(i=>i.id===o.inventory_id);
+    const waMsg=lang==='hi'
+      ?`नमस्ते ${o.customer_name}! 🧵\nआपका *${o.product}* ${o.status==='ready'?'तैयार है':'चल रहा है'} — ज़ैदी टेलर्स\nडिलीवरी: ${fmtDate(o.delivery_date)}\nबकाया: ${fmt(o.pending_amount)}\nधन्यवाद! 🙏`
+      :`Hello ${o.customer_name}! 🧵\nYour *${o.product}* is ${o.status==='ready'?'ready for pickup':'in progress'} at Zaidi Tailors.\nDelivery: ${fmtDate(o.delivery_date)}\nBalance due: ${fmt(o.pending_amount)}\nThank you! 🙏`;
+    const waUrl=`https://wa.me/91${o.customer_phone?.replace(/\D/g,'')}?text=${encodeURIComponent(waMsg)}`;
+    return React.createElement('div',null,
+      React.createElement('button',{className:'btn btn-ghost btn-sm',onClick:()=>setSelected(null),style:{marginBottom:14}},'← Back'),
+      React.createElement('div',{className:'card card-flat'},
+        React.createElement('div',{className:'detail-header'},React.createElement('div',{className:'detail-name'},o.customer_name),React.createElement('div',{className:'detail-sub'},`#${o.id} · ${o.product}`)),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},t('orders.status')),statusBadge(o.status)),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'📅 '+t('orders.delivery')),React.createElement('span',{className:'detail-val'},fmtDate(o.delivery_date))),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'✂️ '+t('orders.stitching')),React.createElement('span',{className:'detail-val'},fmt(o.stitching_price))),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'🧵 '+t('orders.material')),React.createElement('span',{className:'detail-val'},fmt(o.material_cost))),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'💰 '+t('orders.total')),React.createElement('span',{className:'detail-val',style:{fontSize:18,color:'var(--accent)'}},fmt(o.total_amount))),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'✅ Advance'),React.createElement('span',{className:'detail-val text-green'},fmt(o.advance_paid))),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'⏳ '+t('orders.pending')),React.createElement('span',{className:`detail-val ${o.pending_amount>0?'text-red':''}`},fmt(o.pending_amount))),
+        inv&&React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'🧵 Cloth'),React.createElement('span',{className:'detail-val'},`${inv.brand} ${inv.cloth_type} (${inv.color})`)),
+        React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'📏 '+t('orders.meters')),React.createElement('span',{className:'detail-val'},(o.meters_used||'—')+'m')),
+        o.notes&&React.createElement('div',{className:'detail-row'},React.createElement('span',{className:'detail-key'},'📝'),React.createElement('span',{className:'detail-val'},o.notes)),
+      ),
+      React.createElement('div',{className:'card card-flat',style:{marginTop:10}},
+        React.createElement('div',{style:{fontWeight:700,marginBottom:10,fontSize:13}},t('orders.status')+' →'),
+        React.createElement('div',{style:{display:'flex',flexWrap:'wrap',gap:8}},
+          ['pending','in_progress','ready','delivered','cancelled'].map(s=>
+            React.createElement('button',{key:s,className:`btn btn-sm ${o.status===s?'btn-primary':'btn-ghost'}`,
+              onClick:()=>{update(prev=>({...prev,orders:prev.orders.map(x=>x.id===o.id?{...x,status:s}:x)}));showToast(t('common.success'));}
+            },t(`orders.statuses.${s}`))
+          )
+        )
+      ),
+      React.createElement('div',{style:{display:'flex',gap:8,marginTop:10}},
+        o.customer_phone&&React.createElement('a',{href:waUrl,target:'_blank',className:'btn btn-green',style:{flex:1,justifyContent:'center',textDecoration:'none'}},'💬 '+t('orders.whatsapp')),
+        React.createElement('button',{className:'btn btn-ghost',style:{flex:1},onClick:()=>window.print()},'🖨️ '+t('orders.print')),
+        React.createElement('button',{className:'btn btn-ghost',style:{flex:1},onClick:()=>{setEditing(o);setSelected(null);setShowForm(true);}},t('common.edit')),
+      ),
+    );
+  }
+
+  return React.createElement('div',null,
+    React.createElement('div',{className:'section-header'},
+      React.createElement('h2',{className:'section-title'},t('orders.title'),React.createElement('span',{className:'sub'},filtered.length+' orders')),
+    ),
+    React.createElement(SearchBar,{value:search,onChange:setSearch,placeholder:'Search name, phone, cloth type, city, status…'}),
+    React.createElement('div',{className:'filter-row'},
+      ['all','pending','in_progress','ready','delivered'].map(c=>
+        React.createElement('button',{key:c,className:`filter-chip ${filter===c?'active':''}`,onClick:()=>setFilter(c)},c==='all'?t('orders.all'):t(`orders.statuses.${c}`))
+      )
+    ),
+    filtered.length===0?React.createElement('div',{className:'empty'},React.createElement('div',{className:'icon'},'📋'),React.createElement('div',{className:'text'},t('common.noData')))
+    :filtered.map(o=>React.createElement(OrderCard,{key:o.id,order:o,t,onClick:()=>setSelected(o.id)})),
+    React.createElement('button',{className:'fab',onClick:()=>{setEditing(null);setShowForm(true);}},'＋'),
+    showForm&&React.createElement(OrderForm,{t,data,update,showToast,onClose:()=>{setShowForm(false);setEditing(null);},editing,lang})
+  );
+}
+
+// ── ORDER FORM ────────────────────────────────────────────────────────────────
+function OrderForm({t,data,update,showToast,onClose,editing,lang}){
+  const [form,setForm]=useState(editing||{customer_name:'',customer_phone:'',customer_id:'',product:'Shirt',cloth_source:'shop',inventory_id:'',meters_used:1.8,stitching_price:500,material_cost:0,total_amount:0,advance_paid:0,pending_amount:0,delivery_date:'',status:'pending',notes:''});
+  const [matManual,setMatManual]=useState(!!editing);
+  const [listening,setListening]=useState(false);
+  const ch=(k,v)=>setForm(f=>({...f,[k]:v}));
+  const invItems=data.inventory.filter(i=>i.meters_available>0);
+
+  useEffect(()=>{
+    let mat=parseFloat(form.material_cost||0);
+    if(!matManual){
+      if(form.cloth_source==='shop'){const inv=data.inventory.find(i=>i.id===form.inventory_id);mat=parseFloat(((parseFloat(form.meters_used||0))*(inv?.sell_per_meter||0)).toFixed(2));}
+      else mat=0;
+    }
+    const total=parseFloat((parseFloat(form.stitching_price||0)+mat).toFixed(2));
+    const pend=parseFloat((total-parseFloat(form.advance_paid||0)).toFixed(2));
+    setForm(f=>({...f,material_cost:matManual?f.material_cost:mat,total_amount:total,pending_amount:pend}));
+  },[form.inventory_id,form.meters_used,form.stitching_price,form.advance_paid,form.cloth_source,matManual]);
+
+  const pickProduct=p=>{const c=data.productConfig.find(x=>x.name===p);setForm(f=>({...f,product:p,meters_used:c?.meters||1.8}));setMatManual(false);};
+
+  const startVoice=()=>{
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){alert('Voice not supported');return;}
+    const rec=new SR();rec.lang=lang==='hi'?'hi-IN':'en-IN';rec.interimResults=false;setListening(true);
+    rec.onresult=e=>{
+      const txt=e.results[0][0].transcript;setListening(false);
+      const nm=txt.match(/(?:naam|name|नाम)[:\s]+([^\s,]+)/i);
+      const pm=txt.match(/\b(shirt|pant|coat|suit|kurta|sherwani|कमीज|पैंट|कोट|सूट|कुर्ता)\b/i);
+      const ph=txt.match(/\d{10}/);
+      if(nm)ch('customer_name',nm[1]);
+      if(pm){const map={कमीज:'Shirt',पैंट:'Pant',कोट:'Coat',सूट:'Suit',कुर्ता:'Kurta'};pickProduct(map[pm[1]]||pm[1][0].toUpperCase()+pm[1].slice(1));}
+      if(ph)ch('customer_phone',ph[0]);
+      showToast('🎙️ "'+txt+'"');
+    };
+    rec.onerror=()=>setListening(false);rec.onend=()=>setListening(false);rec.start();
+  };
+
+  const handleSave=()=>{
+    if(!form.customer_name){showToast('Enter customer name');return;}
+    if(!form.delivery_date){showToast('Enter delivery date');return;}
+    update(prev=>{
+      let ni=prev.inventory;
+      if(!editing&&form.cloth_source==='shop'&&form.inventory_id&&form.meters_used)
+        ni=prev.inventory.map(i=>i.id===form.inventory_id?{...i,meters_available:parseFloat((i.meters_available-parseFloat(form.meters_used)).toFixed(2))}:i);
+      const no=editing?{...form,id:editing.id}:{...form,id:uid(),created_at:today()};
+      const cust=prev.customers.find(c=>c.name.toLowerCase()===form.customer_name.toLowerCase());
+      if(cust)no.customer_id=cust.id;
+      return{...prev,inventory:ni,orders:editing?prev.orders.map(o=>o.id===editing.id?no:o):[...prev.orders,no]};
+    });
+    showToast(t('common.success'));onClose();
+  };
+
+  return React.createElement('div',{className:'modal-overlay',onClick:onClose},
+    React.createElement('div',{className:'modal',onClick:e=>e.stopPropagation()},
+      React.createElement('div',{className:'modal-header'},
+        React.createElement('span',{className:'modal-title'},editing?t('orders.update'):t('orders.new')),
+        React.createElement('button',{className:'modal-close',onClick:onClose},'✕'),
+      ),
+      // Voice
+      React.createElement('div',{style:{display:'flex',gap:8,marginBottom:16,alignItems:'center'}},
+        React.createElement('button',{className:`voice-btn ${listening?'listening':''}`,onClick:startVoice},'🎙️'),
+        React.createElement('span',{style:{fontSize:11,color:'var(--text2)'}},listening?'Listening…':'Tap mic — Hindi/English voice input'),
+      ),
+      // Customer
+      React.createElement('div',{className:'form-section'},
+        React.createElement('div',{className:'form-section-title'},'👤 Customer'),
+        React.createElement('div',{className:'form-group'},
+          React.createElement('label',null,t('orders.name'),React.createElement('span',{className:'hi'},' ग्राहक का नाम')),
+          React.createElement('input',{list:'cust-dl',value:form.customer_name,placeholder:'Type or select…',
+            onChange:e=>{ch('customer_name',e.target.value);const c=data.customers.find(x=>x.name===e.target.value);if(c)ch('customer_phone',c.phone||'');}}),
+          React.createElement('datalist',{id:'cust-dl'},data.customers.map(c=>React.createElement('option',{key:c.id,value:c.name}))),
+        ),
+        React.createElement('div',{className:'form-group'},
+          React.createElement('label',null,t('orders.phone'),React.createElement('span',{className:'hi'},' फोन')),
+          React.createElement('input',{type:'tel',value:form.customer_phone,onChange:e=>ch('customer_phone',e.target.value)}),
+        ),
+      ),
+      // Product
+      React.createElement('div',{className:'form-section'},
+        React.createElement('div',{className:'form-section-title'},'✂️ Product / उत्पाद'),
+        React.createElement('div',{className:'product-pills'},
+          data.productConfig.map(p=>React.createElement('div',{key:p.id,className:`product-pill ${form.product===p.name?'selected':''}`,onClick:()=>pickProduct(p.name)},
+            p.name,React.createElement('span',{className:'hi'},p.nameHi+' ('+p.meters+'m)')
+          ))
+        ),
+      ),
+      // Cloth source
+      React.createElement('div',{className:'form-section'},
+        React.createElement('div',{className:'form-section-title'},'🧵 Cloth Source / कपड़ा कहाँ से'),
+        React.createElement('div',{className:'source-pills'},
+          React.createElement('div',{className:`source-pill ${form.cloth_source==='shop'?'selected':''}`,onClick:()=>{ch('cloth_source','shop');setMatManual(false);}},
+            React.createElement('div',{className:'icon'},'🏪'),React.createElement('span',{className:'text'},t('orders.shopCloth')),React.createElement('span',{className:'sub'},'दुकान का कपड़ा'),
+          ),
+          React.createElement('div',{className:`source-pill ${form.cloth_source==='customer'?'selected':''}`,onClick:()=>{ch('cloth_source','customer');setMatManual(false);}},
+            React.createElement('div',{className:'icon'},'👕'),React.createElement('span',{className:'text'},t('orders.ownCloth')),React.createElement('span',{className:'sub'},'ग्राहक का कपड़ा'),
+          ),
+        ),
+        // ▶ SEARCHABLE cloth picker — type brand/color/type to filter
+        form.cloth_source==='shop'&&React.createElement('div',{className:'form-group',style:{marginTop:12}},
+          React.createElement('label',null,t('orders.selectCloth'),React.createElement('span',{className:'hi'},' कपड़ा चुनें')),
+          React.createElement(SearchDrop,{
+            value:form.inventory_id,
+            onChange:id=>{ch('inventory_id',id);setMatManual(false);},
+            items:invItems,
+            placeholder:'Type brand, color, cloth type to search…',
+            renderLabel:i=>`${i.brand} — ${i.cloth_type} (${i.color})`,
+            renderSub:i=>`${i.meters_available}m available · ₹${i.sell_per_meter||0}/m`,
+            filterFn:(i,q)=>[i.brand,i.cloth_type,i.color,i.id].some(v=>hits(v,q)),
+          }),
+        ),
+        React.createElement('div',{className:'form-group',style:{marginTop:8}},
+          React.createElement('label',null,t('orders.meters'),React.createElement('span',{className:'hi'},' मीटर')),
+          React.createElement('input',{type:'number',step:0.1,min:0,value:form.meters_used,onChange:e=>{ch('meters_used',e.target.value);setMatManual(false);}}),
+        ),
+      ),
+      // Pricing
+      React.createElement('div',{className:'form-section'},
+        React.createElement('div',{className:'form-section-title'},'💰 Pricing / रकम'),
+        React.createElement('div',{className:'form-grid'},
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,t('orders.stitching'),React.createElement('span',{className:'hi'},' सिलाई')),
+            React.createElement('input',{type:'number',min:0,value:form.stitching_price,onChange:e=>ch('stitching_price',e.target.value)}),
+          ),
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,
+              t('orders.material'),
+              // Auto/Manual badge — always visible
+              React.createElement('span',{className:matManual?'tag-manual':'tag-auto'},matManual?'Manual':'Auto'),
+            ),
+            React.createElement('input',{
+              type:'number',min:0,
+              value:form.material_cost,
+              style:{borderColor:matManual?'var(--orange)':''},
+              onChange:e=>{setMatManual(true);ch('material_cost',e.target.value);}
+            }),
+            // Reset link shown only when manually overridden
+            matManual&&React.createElement('span',{className:'reset-link',onClick:()=>setMatManual(false)},'↩ Reset to auto'),
+          ),
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,'Total / कुल रकम'),
+            React.createElement('input',{value:fmt(form.total_amount),readOnly:true,style:{background:'var(--surface2)',fontWeight:700,color:'var(--accent)'}}),
+          ),
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,t('orders.advance'),React.createElement('span',{className:'hi'},' अग्रिम')),
+            React.createElement('input',{type:'number',min:0,value:form.advance_paid,onChange:e=>ch('advance_paid',e.target.value)}),
+          ),
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,t('orders.pending'),React.createElement('span',{className:'hi'},' बकाया')),
+            React.createElement('input',{value:fmt(form.pending_amount),readOnly:true,style:{background:'var(--surface2)',fontWeight:700,color:form.pending_amount>0?'var(--red)':'var(--green)'}}),
+          ),
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,t('orders.delivery'),React.createElement('span',{className:'hi'},' डिलीवरी तारीख')),
+            React.createElement('input',{type:'date',value:form.delivery_date,onChange:e=>ch('delivery_date',e.target.value)}),
+          ),
+        ),
+        React.createElement('div',{className:'form-group'},
+          React.createElement('label',null,t('orders.notes'),React.createElement('span',{className:'hi'},' नोट')),
+          React.createElement('textarea',{value:form.notes,onChange:e=>ch('notes',e.target.value),placeholder:'Special instructions…'}),
+        ),
+        editing&&React.createElement('div',{className:'form-group'},
+          React.createElement('label',null,t('orders.status')),
+          React.createElement('select',{value:form.status,onChange:e=>ch('status',e.target.value)},
+            ['pending','in_progress','ready','delivered','cancelled'].map(s=>React.createElement('option',{key:s,value:s},t(`orders.statuses.${s}`)))
+          ),
+        ),
+      ),
+      React.createElement('div',{className:'form-actions'},
+        React.createElement('button',{className:'btn btn-primary',onClick:handleSave},'💾 '+t('orders.save')),
+        React.createElement('button',{className:'btn btn-ghost',onClick:onClose},t('common.cancel')),
+      ),
+    )
+  );
+}
+
+// ── INVENTORY PAGE ────────────────────────────────────────────────────────────
+function InventoryPage({t,data,update,showToast}){
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const emptyForm={brand:'',cloth_type:'',color:'',total_meters:'',meters_available:'',cost_per_meter:'',sell_per_meter:'',date_added:'',notes:''};
+  const [form,setForm]=useState(emptyForm);
+  const ch=(k,v)=>setForm(f=>{const n={...f,[k]:v};if(k==='cost_per_meter'&&v)n.sell_per_meter=parseFloat((parseFloat(v)*1.6).toFixed(0));return n;});
+
+  // Deep search: brand, type, color, id, notes
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    if(!q)return data.inventory;
+    return data.inventory.filter(i=>[i.brand,i.cloth_type,i.color,i.id,i.notes].some(v=>hits(v,q)));
+  },[data.inventory,search]);
+
+  const openEdit=item=>{setForm({...item,date_added:item.date_added?.split('T')[0]||''});setEditing(item.id);setShowForm(true);};
+  const del=id=>{if(!window.confirm(t('common.confirm')))return;update(p=>({...p,inventory:p.inventory.filter(i=>i.id!==id)}));showToast('Deleted');};
+  const handleSave=()=>{
+    if(!form.cloth_type||!form.total_meters){showToast('Fill cloth type & meters');return;}
+    update(prev=>{
+      if(editing)return{...prev,inventory:prev.inventory.map(i=>i.id===editing?{...i,...form,id:editing}:i)};
+      return{...prev,inventory:[...prev.inventory,{...form,id:'I'+uid().slice(0,6).toUpperCase(),meters_available:form.meters_available||form.total_meters}]};
+    });
+    showToast(t('common.success'));setShowForm(false);setEditing(null);setForm(emptyForm);
+  };
+
+  return React.createElement('div',null,
+    React.createElement('div',{className:'section-header'},
+      React.createElement('h2',{className:'section-title'},t('inv.title'),React.createElement('span',{className:'sub'},filtered.length+' rolls')),
+    ),
+    // Same search bar pattern
+    React.createElement(SearchBar,{value:search,onChange:setSearch,placeholder:t('inv.search')}),
+    filtered.length===0&&React.createElement('div',{className:'empty'},React.createElement('div',{className:'icon'},'📦'),React.createElement('div',{className:'text'},t('common.noData'))),
+    filtered.map(item=>{
+      const pct=item.total_meters>0?(item.meters_available/item.total_meters)*100:0;
+      const low=item.meters_available<2;
+      const linked=data.orders.filter(o=>o.inventory_id===item.id).length;
+      return React.createElement('div',{key:item.id,className:'card card-flat',style:{borderLeft:low?'3px solid var(--red)':'3px solid var(--green)'}},
+        React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}},
+          React.createElement('div',null,
+            React.createElement('div',{style:{fontWeight:700,fontSize:16}},item.brand,' ',React.createElement('span',{style:{color:'var(--text2)',fontWeight:400}},item.cloth_type)),
+            React.createElement('div',{className:'inv-brand'},item.color,' · ',item.id),
+            low&&React.createElement('span',{className:'badge badge-cancelled',style:{marginTop:4}},'⚠️ '+t('inv.lowStock')),
+          ),
+          React.createElement('div',{style:{display:'flex',gap:6}},
+            React.createElement('button',{className:'btn btn-sm btn-ghost',onClick:()=>openEdit(item)},'✏️'),
+            React.createElement('button',{className:'btn btn-sm btn-ghost',style:{color:'var(--red)'},onClick:()=>del(item.id)},'🗑️'),
+          ),
+        ),
+        React.createElement('div',{className:'inv-bar-wrap'},React.createElement('div',{className:'inv-bar',style:{width:`${pct}%`,background:low?'var(--red)':'var(--green)'}})),
+        React.createElement('div',{className:'inv-stats'},
+          React.createElement('span',null,React.createElement('b',null,item.meters_available),'m / ',item.total_meters,'m'),
+          React.createElement('span',null,'₹',item.sell_per_meter||0,'/m'),
+        ),
+        React.createElement('div',{className:'inv-stats',style:{marginTop:4,fontSize:11,color:'var(--text2)'}},
+          React.createElement('span',null,'Cost ₹',item.cost_per_meter||0,'/m'),
+          React.createElement('span',null,linked,' orders'),
+        ),
+      );
+    }),
+    React.createElement('button',{className:'fab',onClick:()=>{setEditing(null);setForm(emptyForm);setShowForm(true);}},'＋'),
+    showForm&&React.createElement('div',{className:'modal-overlay',onClick:()=>setShowForm(false)},
+      React.createElement('div',{className:'modal',onClick:e=>e.stopPropagation()},
+        React.createElement('div',{className:'modal-header'},
+          React.createElement('span',{className:'modal-title'},editing?t('common.edit'):t('inv.add')),
+          React.createElement('button',{className:'modal-close',onClick:()=>setShowForm(false)},'✕'),
+        ),
+        React.createElement('div',{className:'form-grid'},
+          React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.brand')),React.createElement('input',{value:form.brand,onChange:e=>ch('brand',e.target.value),placeholder:'Raymond, Siyaram…'})),
+          React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.type'),React.createElement('span',{className:'hi'},' कपड़ा')),React.createElement('input',{value:form.cloth_type,onChange:e=>ch('cloth_type',e.target.value),placeholder:'Linen, Cotton…'})),
+          React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.color'),React.createElement('span',{className:'hi'},' रंग')),React.createElement('input',{value:form.color,onChange:e=>ch('color',e.target.value),placeholder:'White, Blue…'})),
+          React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.total')),React.createElement('input',{type:'number',step:0.5,min:0,value:form.total_meters,onChange:e=>ch('total_meters',e.target.value)})),
+          editing&&React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.available')),React.createElement('input',{type:'number',step:0.5,min:0,value:form.meters_available,onChange:e=>ch('meters_available',e.target.value)})),
+          React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.costPerM')),React.createElement('input',{type:'number',step:1,min:0,value:form.cost_per_meter,onChange:e=>ch('cost_per_meter',e.target.value),placeholder:'0'})),
+          React.createElement('div',{className:'form-group'},
+            React.createElement('label',null,t('inv.sellPerM'),React.createElement('span',{className:'tag-auto'},'Auto=cost×1.6')),
+            React.createElement('input',{type:'number',step:1,min:0,value:form.sell_per_meter,onChange:e=>ch('sell_per_meter',e.target.value),placeholder:'Auto: cost × 1.6'})
+          ),
+          React.createElement('div',{className:'form-group'},React.createElement('label',null,t('inv.date')),React.createElement('input',{type:'date',value:form.date_added,onChange:e=>ch('date_added',e.target.value)})),
+        ),
+        React.createElement('div',{className:'form-actions'},
+          React.createElement('button',{className:'btn btn-primary',onClick:handleSave},'💾 '+t('inv.save')),
+          React.createElement('button',{className:'btn btn-ghost',onClick:()=>setShowForm(false)},t('common.cancel')),
+        ),
+      )
+    )
+  );
+}
+
+// ── CUSTOMERS PAGE ────────────────────────────────────────────────────────────
+function CustomersPage({t,data,update,showToast}){
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const [selected,setSelected]=useState(null);
+  const emptyForm={name:'',phone:'',address:'',notes:''};
+  const [form,setForm]=useState(emptyForm);
+
+  // Deep search: name, phone, address/city
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    if(!q)return data.customers;
+    return data.customers.filter(c=>[c.name,c.phone,c.address,c.notes].some(v=>hits(v,q)));
+  },[data.customers,search]);
+
+  const handleSave=()=>{
+    if(!form.name){showToast('Enter name');return;}
+    update(prev=>{
+      if(editing)return{...prev,customers:prev.customers.map(c=>c.id===editing?{...c,...form}:c)};
+      return{...prev,customers:[...prev.customers,{...form,id:'C'+uid().slice(0,6)}]};
+    });
+    showToast(t('common.success'));setShowForm(false);setEditing(null);setForm(emptyForm);
+  };
+
+  if(selected){
+    const cust=data.customers.find(c=>c.id===selected);
+    if(!cust){setSelected(null);return null;}
+    const meas=data.measurements.filter(m=>m.customer_id===cust.id);
+    const orders=data.orders.filter(o=>o.customer_id===cust.id||o.customer_name===cust.name);
+    const mf=[['shoulder','कंधा'],['chest','छाती'],['waist','कमर'],['hip','कूल्हा'],['sleeve','बांह'],['length','लंबाई'],['collar','गला'],['pant_length','पैंट लंबाई'],['thigh','जांघ'],['bottom','घेरा']];
+    const mk=['shoulder','chest','waist','hip','sleeve','length','collar','pant_length','thigh','bottom'];
+    const mlk={shoulder:'shoulder',chest:'chest',waist:'waist',hip:'hip',sleeve:'sleeve',length:'length',collar:'collar',pant_length:'pantLen',thigh:'thigh',bottom:'bottom'};
+    return React.createElement('div',null,
+      React.createElement('button',{className:'btn btn-ghost btn-sm',onClick:()=>setSelected(null),style:{marginBottom:14}},'← Back'),
+      React.createElement('div',{className:'card card-flat'},
+        React.createElement('div',{style:{display:'flex',alignItems:'center',gap:14,marginBottom:16}},
+          React.createElement('div',{className:'customer-avatar',style:{cursor:'default'}},cust.name[0]?.toUpperCase()),
+          React.createElement('div',null,
+            React.createElement('div',{style:{fontSize:20,fontWeight:700}},cust.name),
+            cust.phone&&React.createElement('div',{style:{color:'var(--text2)',fontSize:13}},cust.phone),
+            cust.address&&React.createElement('div',{style:{color:'var(--text2)',fontSize:12}},cust.address),
+          ),
+        ),
+        React.createElement('div',{style:{fontWeight:700,fontSize:13,marginBottom:8}},'📐 '+t('cust.measurements')+' ('+meas.length+')'),
+        meas.length===0?React.createElement('p',{style:{color:'var(--text2)',fontSize:13}},t('cust.noMeas'))
+        :meas.map(m=>React.createElement('div',{key:m.id,style:{marginBottom:12}},
+            React.createElement('div',{style:{fontWeight:600,fontSize:12,color:'var(--text2)',marginBottom:8}},m.label||'Default',' · ',fmtDate(m.created_at)),
+            React.createElement('div',{className:'meas-grid'},
+              mf.map(([k,hi],idx)=>{const v=m[mk[idx]];return v?React.createElement('div',{key:k,className:'meas-item'},
+                React.createElement('div',{className:'meas-label'},t('meas.'+mlk[mk[idx]]),React.createElement('span',{className:'hi'},' '+hi)),
+                React.createElement('div',{className:'meas-value'},v,React.createElement('span',{className:'meas-unit'},' in')),
+              ):null;}).filter(Boolean)
+            )
+          )),
+        React.createElement('div',{className:'divider'}),
+        React.createElement('div',{style:{fontWeight:700,fontSize:13,marginBottom:8}},'📋 '+t('cust.orders')+' ('+orders.length+')'),
+        orders.slice(0,5).map(o=>React.createElement('div',{key:o.id,style:{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--border)',fontSize:13}},
+          React.createElement('span',null,o.product,' · ',fmtDate(o.delivery_date)),
+          React.createElement('span',{style:{fontWeight:600}},fmt(o.total_amount))
+        )),
+      )
+    );
+  }
+
+  return React.createElement('div',null,
+    React.createElement('div',{className:'section-header'},
+      React.createElement('h2',{className:'section-title'},t('cust.title'),React.createElement('span',{className:'sub'},data.customers.length+' total')),
+    ),
+    // Same search bar pattern
+    React.createElement(SearchBar,{value:search,onChange:setSearch,placeholder:t('cust.search')}),
+    React.createElement('div',{className:'card card-flat'},
+      filtered.length===0&&React.createElement('div',{className:'empty'},React.createElement('div',{className:'icon'},'👥'),React.createElement('div',{className:'text'},t('common.noData'))),
+      filtered.map(c=>{
+        const mc=data.measurements.filter(m=>m.customer_id===c.id).length;
+        return React.createElement('div',{key:c.id,className:'customer-row'},
+          React.createElement('div',{className:'customer-avatar',onClick:()=>setSelected(c.id)},c.name[0]?.toUpperCase()),
+          React.createElement('div',{className:'customer-info',onClick:()=>setSelected(c.id)},
+            React.createElement('div',{className:'customer-name'},c.name),
+            React.createElement('div',{className:'customer-sub'},(c.address||'No address'),' · 📐 '+mc),
+          ),
+          React.createElement('div',{className:'customer-actions'},
+            c.phone&&React.createElement('a',{href:'tel:'+c.phone,className:'btn btn-sm btn-ghost'},'📞'),
+            React.createElement('button',{className:'btn btn-sm btn-ghost',onClick:()=>{setForm({name:c.name,phone:c.phone||'',address:c.address||'',notes:c.notes||''});setEditing(c.id);setShowForm(true);}},'✏️'),
+          ),
+        );
+      })
+    ),
+    React.createElement('button',{className:'fab',onClick:()=>{setEditing(null);setForm(emptyForm);setShowForm(true);}},'＋'),
+    showForm&&React.createElement('div',{className:'modal-overlay',onClick:()=>setShowForm(false)},
+      React.createElement('div',{className:'modal',onClick:e=>e.stopPropagation()},
+        React.createElement('div',{className:'modal-header'},
+          React.createElement('span',{className:'modal-title'},editing?t('common.edit'):t('cust.add')),
+          React.createElement('button',{className:'modal-close',onClick:()=>setShowForm(false)},'✕'),
+        ),
+        React.createElement('div',{className:'form-group'},React.createElement('label',null,t('cust.name'),React.createElement('span',{className:'hi'},' नाम')),React.createElement('input',{value:form.name,onChange:e=>setForm(f=>({...f,name:e.target.value}))})),
+        React.createElement('div',{className:'form-group'},React.createElement('label',null,t('cust.phone'),React.createElement('span',{className:'hi'},' फोन')),React.createElement('input',{type:'tel',value:form.phone,onChange:e=>setForm(f=>({...f,phone:e.target.value}))})),
+        React.createElement('div',{className:'form-group'},React.createElement('label',null,t('cust.address'),React.createElement('span',{className:'hi'},' पता')),React.createElement('input',{value:form.address,onChange:e=>setForm(f=>({...f,address:e.target.value}))})),
+        React.createElement('div',{className:'form-group'},React.createElement('label',null,t('cust.notes')),React.createElement('textarea',{value:form.notes,onChange:e=>setForm(f=>({...f,notes:e.target.value})),rows:2})),
+        React.createElement('div',{className:'form-actions'},
+          React.createElement('button',{className:'btn btn-primary',onClick:handleSave},'💾 '+t('cust.save')),
+          React.createElement('button',{className:'btn btn-ghost',onClick:()=>setShowForm(false)},t('common.cancel')),
+        ),
+      )
+    )
+  );
+}
+
+// ── MEASUREMENTS PAGE ─────────────────────────────────────────────────────────
+function MeasurementsPage({t,data,update,showToast}){
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const [custId,setCustId]=useState('');
+  const emptyM={label:'',shoulder:'',chest:'',waist:'',hip:'',sleeve:'',length:'',collar:'',pant_length:'',thigh:'',bottom:''};
+  const [form,setForm]=useState(emptyM);
+  const custMap=useMemo(()=>Object.fromEntries(data.customers.map(c=>[c.id,c])),[data.customers]);
+
+  // Deep search: customer name, phone, label
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    if(!q)return data.measurements;
+    return data.measurements.filter(m=>{
+      const c=custMap[m.customer_id];
+      return[c?.name,c?.phone,m.label].some(v=>hits(v,q));
+    });
+  },[data.measurements,search,custMap]);
+
+  const handleSave=()=>{
+    if(!custId){showToast('Select a customer');return;}
+    update(prev=>{
+      const rec={...form,customer_id:custId,created_at:today()};
+      if(editing){rec.id=editing;return{...prev,measurements:prev.measurements.map(m=>m.id===editing?rec:m)};}
+      rec.id='M'+uid();return{...prev,measurements:[...prev.measurements,rec]};
+    });
+    showToast(t('common.success'));setShowForm(false);setEditing(null);setForm(emptyM);setCustId('');
+  };
+
+  const mf=[['shoulder','कंधा'],['chest','छाती'],['waist','कमर'],['hip','कूल्हा'],['sleeve','बांह'],['length','लंबाई'],['collar','गला'],['pant_length','पैंट लंबाई'],['thigh','जांघ'],['bottom','घेरा']];
+  const lk={shoulder:'shoulder',chest:'chest',waist:'waist',hip:'hip',sleeve:'sleeve',length:'length',collar:'collar',pant_length:'pantLen',thigh:'thigh',bottom:'bottom'};
+
+  return React.createElement('div',null,
+    React.createElement('div',{className:'section-header'},
+      React.createElement('h2',{className:'section-title'},t('meas.title'),React.createElement('span',{className:'sub'},filtered.length+' records')),
+    ),
+    // Same search bar — consistent with all pages
+    React.createElement(SearchBar,{value:search,onChange:setSearch,placeholder:t('meas.search')}),
+    filtered.length===0&&React.createElement('div',{className:'empty'},React.createElement('div',{className:'icon'},'📐'),React.createElement('div',{className:'text'},t('common.noData'))),
+    filtered.map(m=>{
+      const cust=custMap[m.customer_id];
+      return React.createElement('div',{key:m.id,className:'card card-flat',style:{marginBottom:10}},
+        React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}},
+          React.createElement('div',null,
+            React.createElement('div',{style:{fontWeight:700,fontSize:15}},cust?.name||'Unknown'),
+            React.createElement('div',{style:{fontSize:11,color:'var(--text2)'}},m.label||'Default',' · ',fmtDate(m.created_at)),
+          ),
+          React.createElement('div',{style:{display:'flex',gap:6}},
+            React.createElement('button',{className:'btn btn-sm btn-ghost',onClick:()=>{setForm({...emptyM,...m});setCustId(m.customer_id);setEditing(m.id);setShowForm(true);}},'✏️'),
+            React.createElement('button',{className:'btn btn-sm btn-ghost',style:{color:'var(--red)'},onClick:()=>{if(window.confirm(t('common.confirm')))update(p=>({...p,measurements:p.measurements.filter(x=>x.id!==m.id)}));}},'🗑️'),
+          ),
+        ),
+        React.createElement('div',{className:'meas-grid'},
+          mf.map(([k,hi])=>m[k]?React.createElement('div',{key:k,className:'meas-item'},
+            React.createElement('div',{className:'meas-label'},t('meas.'+lk[k]),React.createElement('span',{className:'hi'},' '+hi)),
+            React.createElement('div',{className:'meas-value'},m[k],React.createElement('span',{className:'meas-unit'},' in')),
+          ):null).filter(Boolean)
+        ),
+      );
+    }),
+    React.createElement('button',{className:'fab',onClick:()=>{setEditing(null);setForm(emptyM);setCustId('');setShowForm(true);}},'＋'),
+    showForm&&React.createElement('div',{className:'modal-overlay',onClick:()=>setShowForm(false)},
+      React.createElement('div',{className:'modal',onClick:e=>e.stopPropagation()},
+        React.createElement('div',{className:'modal-header'},
+          React.createElement('span',{className:'modal-title'},editing?t('common.edit'):t('meas.add')),
+          React.createElement('button',{className:'modal-close',onClick:()=>setShowForm(false)},'✕'),
+        ),
+        // ▶ SEARCHABLE customer picker — same SearchDrop used in cloth select
+        React.createElement('div',{className:'form-group'},
+          React.createElement('label',null,'Customer / ग्राहक'),
+          React.createElement(SearchDrop,{
+            value:custId,
+            onChange:setCustId,
+            items:data.customers,
+            placeholder:'Type name or phone to search…',
+            renderLabel:c=>c.name,
+            renderSub:c=>[c.phone,c.address].filter(Boolean).join(' · ')||'No details',
+            filterFn:(c,q)=>[c.name,c.phone,c.address].some(v=>hits(v,q)),
+          }),
+        ),
+        React.createElement('div',{className:'form-group'},
+          React.createElement('label',null,t('meas.label')),
+          React.createElement('input',{value:form.label,onChange:e=>setForm(f=>({...f,label:e.target.value})),placeholder:'e.g. Shirt 2026'}),
+        ),
+        React.createElement('div',{className:'form-grid'},
+          mf.map(([k,hi])=>React.createElement('div',{key:k,className:'form-group'},
+            React.createElement('label',null,t('meas.'+lk[k]),React.createElement('span',{className:'hi'},' '+hi)),
+            React.createElement('input',{type:'number',step:0.5,min:0,value:form[k],onChange:e=>setForm(f=>({...f,[k]:e.target.value})),placeholder:'0 in'}),
+          ))
+        ),
+        React.createElement('div',{className:'form-actions'},
+          React.createElement('button',{className:'btn btn-primary',onClick:handleSave},'💾 '+t('meas.save')),
+          React.createElement('button',{className:'btn btn-ghost',onClick:()=>setShowForm(false)},t('common.cancel')),
+        ),
+      )
+    )
+  );
+}
+
+// ── REPORTS PAGE ──────────────────────────────────────────────────────────────
+function ReportsPage({t,data}){
+  const [tab,setTab]=useState('sales');
+  const [from,setFrom]=useState(new Date(Date.now()-30*86400000).toISOString().split('T')[0]);
+  const [to,setTo]=useState(today());
+  const filtered=data.orders.filter(o=>o.created_at>=from&&o.created_at<=to&&o.status!=='cancelled');
+  const totalRev=filtered.reduce((s,o)=>s+Number(o.total_amount||0),0);
+  const collected=filtered.reduce((s,o)=>s+Number(o.advance_paid||0),0);
+  const pending=filtered.reduce((s,o)=>s+Number(o.pending_amount||0),0);
+  const byProd={};filtered.forEach(o=>{byProd[o.product]=(byProd[o.product]||0)+Number(o.total_amount||0);});
+  const prodE=Object.entries(byProd).sort((a,b)=>b[1]-a[1]);
+  const maxP=prodE[0]?.[1]||1;
+  const byCust={};
+  data.orders.filter(o=>o.status!=='cancelled').forEach(o=>{const k=o.customer_name;if(!byCust[k])byCust[k]={orders:0,spent:0};byCust[k].orders++;byCust[k].spent+=Number(o.total_amount||0);});
+  const topC=Object.entries(byCust).sort((a,b)=>b[1].spent-a[1].spent).slice(0,8);
+  const colors=['#e94560','#0984e3','#00b894','#e17055','#6c5ce7','#fdcb6e','#00cec9','#fd79a8'];
+  const dateRow=React.createElement('div',{style:{display:'flex',gap:8,marginBottom:16,alignItems:'center'}},
+    React.createElement('label',{style:{fontSize:12,color:'var(--text2)'}},'From'),
+    React.createElement('input',{type:'date',value:from,onChange:e=>setFrom(e.target.value),style:{flex:1,border:'1.5px solid var(--border)',borderRadius:8,padding:'8px 10px',fontFamily:'var(--font)',fontSize:13}}),
+    React.createElement('label',{style:{fontSize:12,color:'var(--text2)'}},'To'),
+    React.createElement('input',{type:'date',value:to,onChange:e=>setTo(e.target.value),style:{flex:1,border:'1.5px solid var(--border)',borderRadius:8,padding:'8px 10px',fontFamily:'var(--font)',fontSize:13}}),
+  );
+  return React.createElement('div',null,
+    React.createElement('div',{className:'section-header'},React.createElement('h2',{className:'section-title'},'📊 '+t('rep.title'))),
+    React.createElement('div',{className:'report-tab-row'},['sales','inventory','customers'].map(tb=>React.createElement('button',{key:tb,className:`report-tab ${tab===tb?'active':''}`,onClick:()=>setTab(tb)},t('rep.'+tb)))),
+    dateRow,
+    tab==='sales'&&React.createElement('div',null,
+      React.createElement('div',{className:'report-kpi-row'},
+        React.createElement('div',{className:'report-kpi'},React.createElement('div',{className:'label'},t('rep.totalOrders')),React.createElement('div',{className:'value'},filtered.length)),
+        React.createElement('div',{className:'report-kpi'},React.createElement('div',{className:'label'},t('rep.totalRev')),React.createElement('div',{className:'value',style:{color:'var(--accent)'}},fmt(totalRev))),
+        React.createElement('div',{className:'report-kpi'},React.createElement('div',{className:'label'},t('rep.collected')),React.createElement('div',{className:'value',style:{color:'var(--green)'}},fmt(collected))),
+        React.createElement('div',{className:'report-kpi'},React.createElement('div',{className:'label'},t('rep.pending')),React.createElement('div',{className:'value',style:{color:'var(--red)'}},fmt(pending))),
+      ),
+      React.createElement('div',{className:'card card-flat'},
+        React.createElement('div',{style:{fontWeight:700,marginBottom:12,fontSize:13}},t('rep.byProduct')),
+        prodE.length===0&&React.createElement('p',{style:{color:'var(--text2)',fontSize:13}},t('common.noData')),
+        prodE.map(([p,v],i)=>React.createElement('div',{key:p,className:'bar-row'},
+          React.createElement('div',{className:'bar-label'},p),
+          React.createElement('div',{className:'bar-track'},React.createElement('div',{className:'bar-fill',style:{width:`${(v/maxP)*100}%`,background:colors[i%colors.length]}},fmt(v)))
+        ))
+      )
+    ),
+    tab==='inventory'&&data.inventory.map(item=>{
+      const used=item.total_meters-item.meters_available;
+      const pct=item.total_meters>0?(used/item.total_meters)*100:0;
+      return React.createElement('div',{key:item.id,className:'card card-flat',style:{marginBottom:10}},
+        React.createElement('div',{style:{fontWeight:700,fontSize:14}},item.brand,' ',item.cloth_type,' — ',item.color),
+        React.createElement('div',{className:'inv-bar-wrap',style:{margin:'8px 0'}},React.createElement('div',{className:'inv-bar',style:{width:`${pct}%`,background:'var(--orange)'}})),
+        React.createElement('div',{className:'inv-stats'},React.createElement('span',null,'Used: ',React.createElement('b',null,used,'m'),' / ',item.total_meters,'m'),React.createElement('span',null,'Stock value: ₹',((item.meters_available||0)*(item.sell_per_meter||0)).toLocaleString('en-IN'))),
+      );
+    }),
+    tab==='customers'&&topC.map(([name,info],i)=>React.createElement('div',{key:name,className:'card card-flat',style:{display:'flex',alignItems:'center',gap:12,marginBottom:8}},
+      React.createElement('div',{style:{width:28,height:28,borderRadius:'50%',background:colors[i%colors.length],display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:700,fontSize:13,flexShrink:0}},i+1),
+      React.createElement('div',{style:{flex:1}},React.createElement('div',{style:{fontWeight:600,fontSize:14}},name),React.createElement('div',{style:{fontSize:11,color:'var(--text2)'}},info.orders+' '+t('rep.orders'))),
+      React.createElement('div',{style:{fontWeight:700,color:'var(--accent)'}},fmt(info.spent)),
+    ))
+  );
+}
+
+// ── SETTINGS PAGE ─────────────────────────────────────────────────────────────
+function SettingsPage({t,data,update,showToast}){
+  const [config,setConfig]=useState(data.productConfig.map(p=>({...p})));
+  const save=()=>{update(p=>({...p,productConfig:config}));showToast(t('common.success'));};
+  return React.createElement('div',null,
+    React.createElement('div',{className:'section-header'},React.createElement('h2',{className:'section-title'},'⚙️ '+t('settings.title'))),
+    React.createElement('div',{className:'card card-flat'},
+      React.createElement('div',{style:{fontWeight:700,fontSize:13,marginBottom:4}},t('settings.prodConfig')),
+      React.createElement('div',{style:{fontSize:11,color:'var(--text2)',marginBottom:14}},'Default meters per product. Applies to new orders only.'),
+      config.map((p,i)=>React.createElement('div',{key:p.id,className:'config-row'},
+        React.createElement('div',{className:'config-name'},React.createElement('div',{className:'en'},p.name),React.createElement('div',{className:'hi'},p.nameHi)),
+        React.createElement('input',{className:'config-input',type:'number',step:0.1,min:0,value:p.meters,onChange:e=>setConfig(c=>c.map((x,j)=>j===i?{...x,meters:parseFloat(e.target.value)}:x))}),
+        React.createElement('span',{style:{fontSize:12,color:'var(--text2)'}},'m'),
+      )),
+      React.createElement('div',{className:'form-actions'},React.createElement('button',{className:'btn btn-primary',onClick:save},'💾 '+t('settings.saveAll'))),
+    ),
+    React.createElement('div',{className:'card card-flat',style:{marginTop:10}},
+      React.createElement('div',{style:{fontWeight:700,fontSize:13,marginBottom:12}},'📊 Data Summary'),
+      [['Orders',data.orders.length],['Customers',data.customers.length],['Inventory Rolls',data.inventory.length],['Measurements',data.measurements.length]]
+        .map(([k,v])=>React.createElement('div',{key:k,style:{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--border)',fontSize:13}},
+          React.createElement('span',{style:{color:'var(--text2)'}},k),React.createElement('span',{style:{fontWeight:700}},v)
+        )),
+      React.createElement('button',{className:'btn btn-ghost',style:{marginTop:14,width:'100%',justifyContent:'center',color:'var(--red)'},
+        onClick:()=>{if(window.confirm('Reset ALL data? Cannot be undone!')){localStorage.removeItem(STORE_KEY);window.location.reload();}}},'🗑️ Reset All Data'),
+    ),
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>
