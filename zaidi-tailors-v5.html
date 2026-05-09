@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Zaidi Tailors</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Sora:wght@400;500;600;700&display=swap');
+:root{
+  --primary:#1a1a2e;--accent:#e94560;--gold:#f5a623;--green:#00b894;
+  --blue:#0984e3;--red:#d63031;--orange:#e17055;
+  --surface:#fff;--surface2:#f8f9fa;--border:#e9ecef;
+  --text:#1a1a2e;--text2:#636e72;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--radius:14px;--rsm:8px;
+  --font:'Sora','Noto Sans Devanagari',sans-serif;--nh:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font);background:var(--surface2);color:var(--text);min-height:100vh}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--primary);height:var(--nh);display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 16px rgba(0,0,0,.3)}
+.logo-en{font-size:17px;font-weight:700;color:#fff}
+.logo-hi{font-size:11px;color:var(--gold);font-weight:500}
+.topbar-r{display:flex;gap:8px;align-items:center}
+.lang-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.icon-btn2{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;font-family:var(--font)}
+.botnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--surface);border-top:1px solid var(--border);display:flex;height:60px;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+.nitem{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:none;color:var(--text2);font-family:var(--font);padding:4px 0}
+.nitem.active{color:var(--accent)}
+.nicon{font-size:21px;line-height:1}
+.nlabel{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.pwrap{padding-top:calc(var(--nh)+24px);padding-bottom:76px;min-height:100vh}
+.pinner{padding: 80px 12px 0;max-width:600px;margin:0 auto}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ptitle{font-size:20px;font-weight:700}
+.ptitle .sub{font-size:11px;color:var(--text2);font-weight:400;display:block}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 18px;border-radius:var(--rsm);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:var(--font);transition:all .18s;white-space:nowrap;text-decoration:none}
+.btn-p{background:var(--accent);color:#fff}
+.btn-g{background:var(--green);color:#fff}
+.btn-o{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-sm{padding:7px 12px;font-size:11px}
+.btn-xs{padding:5px 9px;font-size:10px}
+.fab{position:fixed;bottom:70px;right:16px;z-index:90;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(233,69,96,.45);cursor:pointer}
+/* CARDS */
+.card{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid var(--border);cursor:pointer;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.card-s{cursor:default}.card-s:hover{transform:none;box-shadow:var(--shadow)}
+/* STATS */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.scard{border-radius:var(--radius);padding:16px 14px;color:#fff;position:relative;overflow:hidden}
+.scard::after{content:'';position:absolute;right:-10px;top:-10px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.1)}
+.scard.gr{background:linear-gradient(135deg,#00b894,#00cec9)}
+.scard.or{background:linear-gradient(135deg,#e17055,#fdcb6e)}
+.scard.bl{background:linear-gradient(135deg,#0984e3,#74b9ff)}
+.scard.rd{background:linear-gradient(135deg,#d63031,#e17055)}
+.si{font-size:22px;margin-bottom:6px}
+.sv{font-size:22px;font-weight:700;line-height:1}
+.sl{font-size:10px;opacity:.85;margin-top:3px;font-weight:500}
+/* BADGES */
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.bdg-pend{background:#fff3cd;color:#856404}
+.bdg-prog{background:#cfe2ff;color:#084298}
+.bdg-rdy{background:#d1e7dd;color:#0f5132}
+.bdg-deliv{background:#e2e3e5;color:#41464b}
+.bdg-canc{background:#f8d7da;color:#842029}
+/* ORDER CARD */
+.och{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.oname{font-size:15px;font-weight:700}
+.ophone{font-size:11px;color:var(--text2);margin-top:1px}
+.ometa{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--text2)}
+.chip strong{color:var(--text)}
+.oamt{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.ab{flex:1;text-align:center}
+.ab .al{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.ab .av{font-size:14px;font-weight:700;margin-top:1px}
+.av.red{color:var(--red)}.av.grn{color:var(--green)}
+/* MULTI-ITEM ORDER */
+.item-row{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rsm);padding:12px;margin-bottom:8px;position:relative}
+.item-row-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.item-num{font-size:12px;font-weight:700;color:var(--accent)}
+.item-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.add-item-btn{width:100%;padding:12px;border:2px dashed var(--border);border-radius:var(--rsm);background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--text2);font-family:var(--font);margin-bottom:8px;transition:all .18s}
+.add-item-btn:hover{border-color:var(--accent);color:var(--accent)}
+/* FORM */
+.fsec{margin-bottom:18px}
+.fstitle{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.fg label{font-size:11px;font-weight:600;color:var(--text2)}
+.fg label .hi{font-size:10px;color:var(--accent);margin-left:4px}
+.fg input,.fg select,.fg textarea{border:1.5px solid var(--border);border-radius:var(--rsm);padding:11px 13px;font-size:14px;font-family:var(--font);background:var(--surface);color:var(--text);width:100%;transition:border-color .2s;-webkit-appearance:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--accent)}
+.fg textarea{resize:vertical;min-height:68px}
+.factions{display:flex;gap:10px;margin-top:18px}
+.factions .btn{flex:1;justify-content:center;padding:14px}
+/* MODAL */
+.moverlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:flex-end}
+.modal{background:var(--surface);width:100%;max-height:93vh;border-radius:20px 20px 0 0;overflow-y:auto;padding:20px 16px 32px;animation:sup .3s ease}
+@keyframes sup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.mtitle{font-size:18px;font-weight:700}
+.mclose{width:34px;height:34px;border:none;background:var(--surface2);border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* SEARCHABLE DROPDOWN */
+.sdwrap{position:relative;width:100%}
+.sdinput{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--rsm);background:var(--surface);transition:border-color .2s;overflow:hidden}
+.sdinput:focus-within{border-color:var(--accent)}
+.sdinput input{border:none;outline:none;padding:11px 13px;font-size:14px;font-family:var(--font);flex:1;background:transparent;color:var(--text);min-width:0}
+.sdbtn{padding:0 10px;background:none;border:none;font-size:13px;cursor:pointer;color:var(--text2);flex-shrink:0;height:100%}
+.sdlist{position:absolute;top:calc(100%+3px);left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rsm);z-index:500;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.sditem{padding:10px 13px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s}
+.sditem:last-child{border-bottom:none}
+.sditem:hover,.sditem.sel{background:var(--surface2)}
+.sdmain{font-weight:600;color:var(--text)}
+.sdsub{font-size:11px;color:var(--text2);margin-top:1px}
+.sdempty{padding:14px;font-size:13px;color:var(--text2);text-align:center}
+/* SEARCH BAR */
+.sbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rsm);padding:10px 13px;margin-bottom:12px;transition:border-color .2s}
+.sbar:focus-within{border-color:var(--accent)}
+.sbar input{border:none;background:none;font-size:14px;flex:1;font-family:var(--font);outline:none;color:var(--text)}
+.sbar button{background:none;border:none;cursor:pointer;font-size:14px;color:var(--text2);flex-shrink:0;padding:0}
+/* INV */
+.ibar-w{background:var(--surface2);border-radius:4px;height:6px;margin:10px 0;overflow:hidden}
+.ibar{height:100%;border-radius:4px;transition:width .5s}
+.istats{display:flex;justify-content:space-between;font-size:12px}
+/* CUSTOMERS */
+.crow{display:flex;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)}
+.crow:last-child{border-bottom:none}
+.cavatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--orange));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;margin-right:12px;cursor:pointer}
+.cinfo{flex:1;min-width:0;cursor:pointer}
+.cname{font-size:15px;font-weight:600}
+.csub{font-size:11px;color:var(--text2);margin-top:2px}
+.cacts{display:flex;gap:6px}
+/* MEASUREMENTS */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mitem{background:var(--surface2);border-radius:8px;padding:10px 12px}
+.mlabel{font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.mlabel .hi{color:var(--accent);font-size:9px}
+.mval{font-size:17px;font-weight:700;color:var(--text)}
+.munit{font-size:9px;color:var(--text2)}
+/* DETAIL */
+.dhead{background:var(--primary);margin:0 -16px;padding:20px 20px 22px;margin-top:-20px;margin-bottom:18px}
+.dname{font-size:22px;font-weight:700;color:#fff}
+.dsub{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.drow:last-child{border-bottom:none}
+.dkey{font-size:12px;color:var(--text2)}
+.dval{font-size:14px;font-weight:600}
+/* REPORTS */
+.rtabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.rtab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-family:var(--font)}
+.rtab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.rkpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.rkpi{background:var(--surface);border-radius:var(--radius);padding:14px;border:1px solid var(--border)}
+.rkpi .rl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.rkpi .rv{font-size:20px;font-weight:700;margin-top:4px}
+.brow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.blbl{width:68px;font-size:11px;color:var(--text2);flex-shrink:0}
+.btrack{flex:1;background:var(--surface2);border-radius:4px;height:22px;overflow:hidden}
+.bfill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:#fff}
+/* FILTER */
+.frow{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px}
+.fchip{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-family:var(--font);flex-shrink:0}
+.fchip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* MISC */
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 22px;border-radius:30px;font-size:13px;font-weight:600;z-index:600;box-shadow:0 4px 20px rgba(0,0,0,.25);animation:fdin .3s;white-space:nowrap}
+@keyframes fdin{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.empty{text-align:center;padding:44px 20px;color:var(--text2)}
+.empty .ei{font-size:44px;margin-bottom:12px}
+.empty .et{font-size:15px;font-weight:500}
+.qgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.qcard{background:var(--surface);border-radius:var(--radius);padding:16px 8px;text-align:center;cursor:pointer;border:1px solid var(--border);box-shadow:var(--shadow)}
+.qcard .qi{font-size:28px}
+.qcard .ql{font-size:10px;font-weight:600;color:var(--text2);margin-top:6px}
+.alert{background:#fff3cd;border:1px solid #ffc107;border-radius:var(--rsm);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:#856404}
+.divider{height:1px;background:var(--border);margin:12px 0}
+.tred{color:var(--red)}.tgrn{color:var(--green)}
+.tag{display:inline-block;font-size:9px;padding:1px 7px;border-radius:8px;font-weight:700;margin-left:5px;vertical-align:middle}
+.tag-auto{background:#d1e7dd;color:#0f5132}
+.tag-man{background:#fff3cd;color:#856404}
+.reset-lnk{font-size:10px;color:var(--orange);cursor:pointer;margin-top:3px;text-decoration:underline}
+.ppills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.ppill{padding:9px 14px;border-radius:10px;border:2px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font);text-align:center}
+.ppill .phi{font-size:10px;color:var(--text2);display:block}
+.ppill.sel{background:var(--primary);color:#fff;border-color:var(--primary)}
+.ppill.sel .phi{color:var(--gold)}
+.spills{display:flex;gap:10px}
+.spill{flex:1;padding:12px;border-radius:10px;border:2px solid var(--border);background:var(--surface);cursor:pointer;text-align:center;font-family:var(--font)}
+.spill .spi{font-size:20px}
+.spill .spt{font-size:12px;font-weight:600;display:block;margin-top:4px}
+.spill .sps{font-size:10px;color:var(--text2);display:block}
+.spill.sel{border-color:var(--accent);background:#fff0f3}
+.cfg-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border)}
+.cfg-name{flex:1}
+.cfg-name .en{font-size:14px;font-weight:600}
+.cfg-name .hi{font-size:11px;color:var(--accent)}
+.cfg-inp{width:90px;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;font-family:var(--font);text-align:center}
+.vbtn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:11px 12px;cursor:pointer;font-size:18px;color:var(--text2);flex-shrink:0}
+.vbtn.on{background:var(--accent);border-color:var(--accent);color:#fff;animation:plse 1s infinite}
+@keyframes plse{0%,100%{box-shadow:0 0 0 0 rgba(233,69,96,.4)}50%{box-shadow:0 0 0 8px rgba(233,69,96,0)}}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+const {useState,useEffect,useCallback,useRef,useMemo}=React;
+const e=React.createElement;
+
+/* ── i18n ── */
+const TR={
+  en:{
+    nav:{dashboard:'Dashboard',orders:'Orders',customers:'Customers',measurements:'Measurements',inventory:'Inventory'},
+    dash:{ot:'Orders Today',pd:'Pending Deliveries',rev:'Revenue Today',pp:'Pending Payments',qa:'Quick Actions',no:'New Order',as:'Add Stock',ac:'Add Customer',ro:'Recent Orders',ls:'Low Stock Alert'},
+    ord:{title:'Orders',new:'New Order',name:'Customer Name',phone:'Phone',product:'Product',src:'Cloth Source',shop:'Shop Cloth',own:"Customer's Cloth",selCloth:'Select Cloth Roll',meters:'Meters Used',stitch:'Stitching ₹',mat:'Material Cost ₹',total:'Total',adv:'Advance ₹',pend:'Pending ₹',del:'Delivery Date',notes:'Notes',status:'Status',save:'Save Order',wa:'WhatsApp',print:'Print',all:'All',addItem:'+ Add Item',itemN:'Item',remItem:'Remove',
+      st:{pending:'Pending',in_progress:'In Progress',ready:'Ready',delivered:'Delivered',cancelled:'Cancelled'},
+      shopCloth:'Shop Cloth',ownCloth:"Customer's Cloth"},
+    inv:{title:'Inventory',add:'Add Stock',brand:'Brand',type:'Cloth Type',color:'Color',total:'Total Meters',avail:'Available',cost:'Cost/Meter ₹',sell:'Sell Price/Meter ₹',date:'Date Added',save:'Save',low:'Low Stock',search:'Search brand, cloth, color…'},
+    cust:{title:'Customers',add:'Add Customer',name:'Name',phone:'Phone',addr:'Address',notes:'Notes',save:'Save',search:'Search name, phone, city…',meas:'Measurements',ords:'Orders',nomeas:'No measurements yet'},
+    meas:{title:'Measurements',add:'Add Measurements',lbl:'Label',shoulder:'Shoulder',chest:'Chest',waist:'Waist',hip:'Hip',sleeve:'Sleeve',length:'Length',collar:'Collar',pantLen:'Pant Length',thigh:'Thigh',bottom:'Bottom',save:'Save',search:'Search customer name, phone…'},
+    rep:{title:'Reports',sales:'Sales',inventory:'Inventory',customers:'Top Customers',to:'Total Orders',tr:'Total Revenue',col:'Collected',pend:'Pending',bp:'By Product',tc:'Top Customers',ords:'orders'},
+    set:{title:'Settings',pc:'Product Cloth Config',saveAll:'Save All'},
+    com:{save:'Save',cancel:'Cancel',del:'Delete',edit:'Edit',nodata:'No data yet',confirm:'Are you sure?',ok:'Saved!',err:'Error!'}
+  },
+  hi:{
+    nav:{dashboard:'होम',orders:'ऑर्डर',customers:'ग्राहक',measurements:'नाप',inventory:'स्टॉक'},
+    dash:{ot:'आज के ऑर्डर',pd:'बाकी डिलीवरी',rev:'आज की कमाई',pp:'बकाया भुगतान',qa:'जल्दी काम',no:'नया ऑर्डर',as:'स्टॉक जोड़ें',ac:'ग्राहक जोड़ें',ro:'हाल के ऑर्डर',ls:'कम स्टॉक अलर्ट'},
+    ord:{title:'ऑर्डर',new:'नया ऑर्डर',name:'ग्राहक का नाम',phone:'फोन नंबर',product:'उत्पाद',src:'कपड़ा कहाँ से',shop:'दुकान का कपड़ा',own:'ग्राहक का कपड़ा',selCloth:'कपड़ा चुनें',meters:'मीटर',stitch:'सिलाई ₹',mat:'कपड़ा लागत ₹',total:'कुल',adv:'अग्रिम ₹',pend:'बकाया ₹',del:'डिलीवरी तारीख',notes:'नोट',status:'स्थिति',save:'ऑर्डर सहेजें',wa:'व्हाट्सएप',print:'प्रिंट',all:'सभी',addItem:'+ आइटम जोड़ें',itemN:'आइटम',remItem:'हटाएं',
+      st:{pending:'बाकी है',in_progress:'चल रहा है',ready:'तैयार है',delivered:'दे दिया',cancelled:'रद्द'},
+      shopCloth:'दुकान का कपड़ा',ownCloth:'ग्राहक का कपड़ा'},
+    inv:{title:'कपड़ा स्टॉक',add:'स्टॉक जोड़ें',brand:'ब्रांड',type:'कपड़े का प्रकार',color:'रंग',total:'कुल मीटर',avail:'बचा हुआ',cost:'लागत/मीटर ₹',sell:'बिक्री/मीटर ₹',date:'तारीख',save:'सहेजें',low:'कम स्टॉक',search:'ब्रांड, रंग, कपड़ा खोजें…'},
+    cust:{title:'ग्राहक',add:'ग्राहक जोड़ें',name:'नाम',phone:'फोन',addr:'पता',notes:'नोट',save:'सहेजें',search:'नाम, फोन, शहर खोजें…',meas:'नाप',ords:'ऑर्डर',nomeas:'कोई नाप नहीं'},
+    meas:{title:'नाप',add:'नाप जोड़ें',lbl:'लेबल',shoulder:'कंधा',chest:'छाती',waist:'कमर',hip:'कूल्हा',sleeve:'बांह',length:'लंबाई',collar:'गला',pantLen:'पैंट लंबाई',thigh:'जांघ',bottom:'घेरा',save:'सहेजें',search:'ग्राहक का नाम, फोन खोजें…'},
+    rep:{title:'रिपोर्ट',sales:'बिक्री',inventory:'कपड़ा',customers:'मुख्य ग्राहक',to:'कुल ऑर्डर',tr:'कुल आमदनी',col:'मिला',pend:'बाकी',bp:'उत्पाद अनुसार',tc:'मुख्य ग्राहक',ords:'ऑर्डर'},
+    set:{title:'सेटिंग',pc:'कपड़ा खपत सेटिंग',saveAll:'सभी सहेजें'},
+    com:{save:'सहेजें',cancel:'रद्द करें',del:'हटाएं',edit:'बदलें',nodata:'कोई डेटा नहीं',confirm:'क्या आप निश्चित हैं?',ok:'सफलतापूर्वक सहेजा!',err:'गड़बड़ हुई!'}
+  }
+};
+
+/* ── DATA STORE ── */
+const KEY='zt_v6';
+const defData={
+  inventory:[
+    {id:'I001',brand:'Raymond',cloth_type:'Cotton',color:'White',total_meters:50,meters_available:35,cost_per_meter:320,sell_per_meter:512,date_added:'2026-05-01',notes:''},
+    {id:'I003',brand:'Siyaram',cloth_type:'Linen',color:'Light Grey',total_meters:30,meters_available:30,cost_per_meter:0,sell_per_meter:0,date_added:'2026-05-03',notes:''},
+    {id:'I004',brand:'Raymond',cloth_type:'Linen',color:'Light Grey',total_meters:30,meters_available:30,cost_per_meter:0,sell_per_meter:0,date_added:'2026-05-03',notes:''},
+    {id:'I005',brand:'Raymond',cloth_type:'Linen',color:'Blue',total_meters:20,meters_available:20,cost_per_meter:500,sell_per_meter:800,date_added:'2026-05-04',notes:''},
+  ],
+  customers:[
+    {id:'C001',name:'Shahid Ali',phone:'9876543210',address:'Burail',notes:''},
+    {id:'C002',name:'Rakesh',phone:'',address:'Sector 50',notes:''},
+    {id:'C003',name:'shahzeb',phone:'',address:'Zirakpur, Punjab',notes:''},
+    {id:'C004',name:'laraib',phone:'',address:'Zirakpur, Punjab',notes:''},
+    {id:'C005',name:'mushu',phone:'',address:'Mumbai, Maharashtra',notes:''},
+  ],
+  measurements:[
+    {id:'M001',customer_id:'C001',label:'Default',shoulder:17,chest:40,waist:34,hip:38,sleeve:24,length:42,collar:15,pant_length:42,thigh:24,bottom:18,created_at:'2026-05-01'},
+    {id:'M002',customer_id:'C005',label:'Default',shoulder:18,chest:42,waist:36,hip:40,sleeve:25,length:43,collar:16,pant_length:43,thigh:26,bottom:19,created_at:'2026-05-02'},
+  ],
+  /* Orders now have an `items` array — each item has its own product, cloth, meters, stitching, material */
+  orders:[
+    {id:'320618fd',customer_id:'C004',customer_name:'laraib',customer_phone:'',
+      items:[{id:'i1',product:'Suit',cloth_source:'shop',inventory_id:'I003',meters_used:1.8,stitching_price:500,material_cost:2400,item_total:2900,mat_manual:false}],
+      total_amount:2900,advance_paid:0,pending_amount:2900,delivery_date:'2026-05-06',status:'pending',notes:'',created_at:'2026-05-04'},
+    {id:'7cf287d6',customer_id:'C005',customer_name:'mushu',customer_phone:'',
+      items:[{id:'i1',product:'Coat',cloth_source:'shop',inventory_id:'I003',meters_used:5,stitching_price:3000,material_cost:5000,item_total:8000,mat_manual:false}],
+      total_amount:8000,advance_paid:2000,pending_amount:6000,delivery_date:'2026-05-11',status:'pending',notes:'',created_at:'2026-05-04'},
+    {id:'a941d736',customer_id:'C001',customer_name:'Shahid Ali',customer_phone:'9876543210',
+      items:[
+        {id:'i1',product:'Shirt',cloth_source:'shop',inventory_id:'I001',meters_used:1.8,stitching_price:500,material_cost:576,item_total:1076,mat_manual:false},
+        {id:'i2',product:'Pant',cloth_source:'shop',inventory_id:'I005',meters_used:1.3,stitching_price:400,material_cost:1040,item_total:1440,mat_manual:false},
+      ],
+      total_amount:2516,advance_paid:500,pending_amount:2016,delivery_date:'2026-05-11',status:'pending',notes:'',created_at:'2026-05-04'},
+    {id:'95529654',customer_id:'C003',customer_name:'shahzeb',customer_phone:'',
+      items:[{id:'i1',product:'Pant',cloth_source:'shop',inventory_id:'I001',meters_used:1.8,stitching_price:500,material_cost:576,item_total:1076,mat_manual:false}],
+      total_amount:1076,advance_paid:240,pending_amount:836,delivery_date:'2026-05-13',status:'in_progress',notes:'',created_at:'2026-05-05'},
+  ],
+  productConfig:[
+    {id:'P1',name:'Shirt',nameHi:'कमीज',meters:1.8},{id:'P2',name:'Pant',nameHi:'पैंट',meters:1.3},
+    {id:'P3',name:'Coat',nameHi:'कोट',meters:3.0},{id:'P4',name:'Suit',nameHi:'सूट',meters:4.5},
+    {id:'P5',name:'Kurta',nameHi:'कुर्ता',meters:2.5},{id:'P6',name:'Salwar',nameHi:'सलवार',meters:2.0},
+    {id:'P7',name:'Sherwani',nameHi:'शेरवानी',meters:5.0},
+  ]
+};
+
+const load=()=>{try{const d=JSON.parse(localStorage.getItem(KEY));return d||defData;}catch{return defData;}};
+const save=d=>localStorage.setItem(KEY,JSON.stringify(d));
+const uid=()=>Math.random().toString(36).slice(2,10);
+const fmt=n=>`₹${Number(n||0).toLocaleString('en-IN')}`;
+const fmtD=d=>{if(!d)return'—';return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});};
+const tod=()=>new Date().toISOString().split('T')[0];
+const hits=(v,q)=>String(v||'').toLowerCase().includes(q);
+
+const statusBdg=s=>{
+  const cls={pending:'bdg-pend',in_progress:'bdg-prog',ready:'bdg-rdy',delivered:'bdg-deliv',cancelled:'bdg-canc'};
+  const em={pending:'🕐',in_progress:'✂️',ready:'✅',delivered:'📦',cancelled:'❌'};
+  return e('span',{className:`bdg ${cls[s]||'bdg-pend'}`},em[s],' ',s?.replace('_',' '));
+};
+
+/* ── SEARCHABLE DROPDOWN ── used in: cloth selector, customer selector */
+function SDrop({value,onChange,items,placeholder,getLabel,getSub,filterFn}){
+  const [q,setQ]=useState('');
+  const [open,setOpen]=useState(false);
+  const ref=useRef();
+  const sel=items.find(i=>i.id===value);
+
+  useEffect(()=>{
+    const h=ev=>{if(ref.current&&!ref.current.contains(ev.target)){setOpen(false);setQ('');}};
+    document.addEventListener('mousedown',h);
+    return()=>document.removeEventListener('mousedown',h);
+  },[]);
+
+  const visible=q?items.filter(i=>filterFn?filterFn(i,q):hits(getLabel(i),q)):items;
+
+  return e('div',{className:'sdwrap',ref},
+    e('div',{className:'sdinput'},
+      e('input',{
+        value: open ? q : (sel ? getLabel(sel) : ''),
+        placeholder: sel ? getLabel(sel) : placeholder,
+        onFocus:()=>{setOpen(true);setQ('');},
+        onChange:ev=>{setQ(ev.target.value);setOpen(true);},
+      }),
+      sel && e('button',{className:'sdbtn',onMouseDown:ev=>{ev.preventDefault();onChange('');setQ('');}}, '✕'),
+      e('button',{className:'sdbtn',onMouseDown:ev=>{ev.preventDefault();setOpen(o=>!o);}}, '▾'),
+    ),
+    open && e('div',{className:'sdlist'},
+      visible.length===0
+        ? e('div',{className:'sdempty'},'No results')
+        : visible.map(i=>e('div',{key:i.id,className:`sditem ${value===i.id?'sel':''}`,
+            onMouseDown:ev=>{ev.preventDefault();onChange(i.id);setQ('');setOpen(false);}},
+            e('div',{className:'sdmain'},getLabel(i)),
+            getSub && e('div',{className:'sdsub'},getSub(i)),
+          ))
+    )
+  );
+}
+
+/* ── SEARCH BAR ── consistent across all pages */
+function SBar({value,onChange,placeholder}){
+  return e('div',{className:'sbar'},
+    e('span',null,'🔍'),
+    e('input',{value,onChange:ev=>onChange(ev.target.value),placeholder}),
+    value && e('button',{onClick:()=>onChange('')},'✕'),
+  );
+}
+
+/* ── APP ── */
+function App(){
+  const [lang,setLang]=useState(()=>localStorage.getItem('ztl')||'en');
+  const [page,setPage]=useState('dashboard');
+  const [data,setData]=useState(load);
+  const [toast,setToast]=useState('');
+  // Lifted state so Dashboard can deep-link into a specific order or customer
+  const [orderSelected,setOrderSelected]=useState(null);
+  const [custSelected,setCustSelected]=useState(null);
+
+  const t=useCallback((k)=>{
+    const keys=k.split('.');let v=TR[lang];
+    for(const kk of keys)v=v?.[kk];
+    return v??k;
+  },[lang]);
+  const tl=()=>{const n=lang==='en'?'hi':'en';setLang(n);localStorage.setItem('ztl',n);};
+  const toast2=msg=>{setToast(msg);setTimeout(()=>setToast(''),2200);};
+  const upd=fn=>setData(prev=>{const next=fn(prev);save(next);return next;});
+
+  const goTo=(pg,id)=>{
+    if(pg==='orders'){setOrderSelected(id||null);}
+    if(pg==='customers'){setCustSelected(id||null);}
+    setPage(pg);
+  };
+
+  const navs=[
+    {id:'dashboard',icon:'🏠',label:t('nav.dashboard')},
+    {id:'orders',icon:'📋',label:t('nav.orders')},
+    {id:'customers',icon:'👥',label:t('nav.customers')},
+    {id:'measurements',icon:'📐',label:t('nav.measurements')},
+    {id:'inventory',icon:'🏪',label:t('nav.inventory')},
+  ];
+
+  const pages={
+    dashboard:e(DashPage,{t,data,setPage,goTo}),
+    orders:e(OrdersPage,{key:'orders-'+(orderSelected||''),t,data,upd,toast2,lang,initSelected:orderSelected,clearSelected:()=>setOrderSelected(null)}),
+    customers:e(CustPage,{key:'cust-'+(custSelected||''),t,data,upd,toast2,goTo,initSelected:custSelected,clearSelected:()=>setCustSelected(null)}),
+    measurements:e(MeasPage,{t,data,upd,toast2}),
+    inventory:e(InvPage,{t,data,upd,toast2}),
+    reports:e(RepPage,{t,data}),
+    settings:e(SetPage,{t,data,upd,toast2}),
+  };
+
+  return e('div',null,
+    e('header',{className:'topbar'},
+      e('div',null,e('div',{className:'logo-en'},'🧵 Zaidi Tailors'),e('div',{className:'logo-hi'},'ज़ैदी टेलर्स')),
+      e('div',{className:'topbar-r'},
+        e('button',{className:'icon-btn2',onClick:()=>setPage(p=>p==='reports'?'dashboard':'reports')},'📊'),
+        e('button',{className:'icon-btn2',onClick:()=>setPage(p=>p==='settings'?'dashboard':'settings')},'⚙️'),
+        e('button',{className:'lang-btn',onClick:tl},lang==='en'?'हिंदी':'English'),
+      )
+    ),
+    toast&&e('div',{className:'toast'},toast),
+    e('div',{className:'pwrap'},e('div',{className:'pinner'},pages[page]||pages.dashboard)),
+    e('nav',{className:'botnav'},
+      navs.map(n=>e('button',{key:n.id,className:`nitem ${page===n.id?'active':''}`,onClick:()=>setPage(n.id)},
+        e('span',{className:'nicon'},n.icon),e('span',{className:'nlabel'},n.label)
+      ))
+    ),
+  );
+}
+
+/* ── DASHBOARD ── */
+function DashPage({t,data,setPage,goTo}){
+  const ts=tod();
+  const ot=data.orders.filter(o=>o.created_at?.startsWith(ts)).length;
+  const pd=data.orders.filter(o=>o.delivery_date<=ts&&!['delivered','cancelled'].includes(o.status)).length;
+  const rev=data.orders.filter(o=>o.created_at?.startsWith(ts)&&o.status!=='cancelled').reduce((s,o)=>s+Number(o.total_amount||0),0);
+  const pp=data.orders.filter(o=>!['delivered','cancelled'].includes(o.status)).reduce((s,o)=>s+Number(o.pending_amount||0),0);
+  const ls=data.inventory.filter(i=>i.meters_available<2);
+  const in7days=new Date(Date.now()+7*86400000).toISOString().split('T')[0];
+  const immediate=[...data.orders]
+    .filter(o=>!['delivered','cancelled'].includes(o.status)&&o.delivery_date&&o.delivery_date<=in7days)
+    .sort((a,b)=>a.delivery_date.localeCompare(b.delivery_date));
+  const recent=[...data.orders].sort((a,b)=>b.created_at?.localeCompare(a.created_at)).slice(0,3);
+
+  return e('div',null,
+    e('div',{className:'sgrid'},
+      e('div',{className:'scard gr'},e('div',{className:'si'},'📋'),e('div',{className:'sv'},ot),e('div',{className:'sl'},t('dash.ot'))),
+      e('div',{className:'scard or'},e('div',{className:'si'},'🚚'),e('div',{className:'sv'},pd),e('div',{className:'sl'},t('dash.pd'))),
+      e('div',{className:'scard bl'},e('div',{className:'si'},'💰'),e('div',{className:'sv'},fmt(rev)),e('div',{className:'sl'},t('dash.rev'))),
+      e('div',{className:'scard rd'},e('div',{className:'si'},'⏳'),e('div',{className:'sv'},fmt(pp)),e('div',{className:'sl'},t('dash.pp'))),
+    ),
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},t('dash.qa'))),
+    e('div',{className:'qgrid'},
+      e('div',{className:'qcard',onClick:()=>setPage('orders')},e('div',{className:'qi'},'➕'),e('div',{className:'ql'},t('dash.no'))),
+      e('div',{className:'qcard',onClick:()=>setPage('inventory')},e('div',{className:'qi'},'📦'),e('div',{className:'ql'},t('dash.as'))),
+      e('div',{className:'qcard',onClick:()=>setPage('customers')},e('div',{className:'qi'},'👤'),e('div',{className:'ql'},t('dash.ac'))),
+    ),
+    ls.length>0&&e('div',{className:'alert'},'⚠️ '+t('dash.ls')+': '+ls.map(i=>`${i.brand} ${i.cloth_type} (${i.meters_available}m)`).join(', ')),
+    e('div',{className:'ph'},e('h2',{className:'ptitle',style:{color:'var(--red)'}},`🚨 Upcoming Deliveries (${immediate.length})`)),
+    immediate.length===0
+      ?e('div',{style:{color:'var(--text2)',fontSize:13,marginBottom:12,padding:'8px 0'}},'No pending deliveries in next 7 days ✅')
+      :immediate.map(o=>e(OCard,{key:o.id,o,t,compact:true,onClick:()=>goTo('orders',o.id)})),
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},t('dash.ro'))),
+    recent.length===0
+      ?e('div',{className:'empty'},e('div',{className:'ei'},'📋'),e('div',{className:'et'},t('com.nodata')))
+      :recent.map(o=>e(OCard,{key:o.id,o,t,compact:true,onClick:()=>goTo('orders',o.id)}))
+  );
+}
+
+/* ── ORDER CARD ── */
+function OCard({o,t,compact,onClick}){
+  const products=(o.items||[]).map(i=>i.product).join(', ');
+  const done=['delivered','cancelled'].includes(o.status);
+  const diff=o.delivery_date?Math.ceil((new Date(o.delivery_date)-Date.now())/86400000):null;
+  const dueLabel=done?null:diff===null?null:diff<0?`${Math.abs(diff)}d overdue`:diff===0?'Due today':diff===1?'Due tomorrow':`Due in ${diff}d`;
+  const dueBg=done?null:diff<0?'var(--red)':diff===0?'var(--orange)':diff<=3?'var(--gold)':'var(--green)';
+  return e('div',{className:'card',onClick},
+    e('div',{className:'och'},
+      e('div',null,e('div',{className:'oname'},o.customer_name),e('div',{className:'ophone'},o.customer_phone||'—')),
+      e('div',{style:{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:4}},
+        statusBdg(o.status),
+        dueLabel&&e('span',{style:{fontSize:10,fontWeight:700,color:'#fff',background:dueBg,borderRadius:12,padding:'2px 8px'}},dueLabel),
+      ),
+    ),
+    e('div',{className:'ometa'},
+      e('div',{className:'chip'},'✂️ ',e('strong',null,products||(o.product||''))),
+      e('div',{className:'chip'},'📅 ',e('strong',null,fmtD(o.delivery_date))),
+      (o.items||[]).length>1&&e('div',{className:'chip'},e('strong',null,(o.items||[]).length,' items')),
+    ),
+    e('div',{className:'oamt'},
+      e('div',{className:'ab'},e('div',{className:'al'},t('ord.total')),e('div',{className:'av'},fmt(o.total_amount))),
+      e('div',{className:'ab'},e('div',{className:'al'},t('ord.adv')),e('div',{className:'av grn'},fmt(o.advance_paid))),
+      e('div',{className:'ab'},e('div',{className:'al'},t('ord.pend')),e('div',{className:`av ${o.pending_amount>0?'red':''}`},fmt(o.pending_amount))),
+    )
+  );
+}
+
+/* ── ORDERS PAGE ── */
+function OrdersPage({t,data,upd,toast2,lang,initSelected,clearSelected}){
+  const [filter,setFilter]=useState('all');
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [selected,setSelected]=useState(initSelected||null);
+  const [editing,setEditing]=useState(null);
+
+  // If parent navigated us to a specific order, honour it once
+  useEffect(()=>{if(initSelected){setSelected(initSelected);clearSelected&&clearSelected();};},[]);
+
+  const setAndClear=id=>{setSelected(id);};
+
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    return data.orders.filter(o=>{
+      if(filter!=='all'&&o.status!==filter)return false;
+      if(!q)return true;
+      const products=(o.items||[]).map(i=>i.product).join(' ');
+      const invs=(o.items||[]).map(i=>{const inv=data.inventory.find(x=>x.id===i.inventory_id);return[inv?.cloth_type,inv?.color,inv?.brand].join(' ');}).join(' ');
+      const cust=data.customers.find(c=>c.id===o.customer_id||c.name===o.customer_name);
+      return[o.customer_name,o.customer_phone,o.status,o.notes,o.delivery_date,products,invs,cust?.address,cust?.phone].some(v=>hits(v,q));
+    }).sort((a,b)=>{
+      const done=o=>['delivered','cancelled'].includes(o.status);
+      if(done(a)&&!done(b))return 1;
+      if(!done(a)&&done(b))return -1;
+      const da=a.delivery_date||'9999';
+      const db=b.delivery_date||'9999';
+      return da.localeCompare(db);
+    });
+  },[data,filter,search]);
+
+  if(selected){
+    const o=data.orders.find(x=>x.id===selected);
+    if(!o){setSelected(null);return null;}
+    const itemsSummary=(o.items||[]).map(i=>i.product).join(' + ');
+    const waMsg=lang==='hi'
+      ?`नमस्ते ${o.customer_name}! 🧵\nआपका ऑर्डर *${itemsSummary}* ${o.status==='ready'?'तैयार है':'चल रहा है'} — ज़ैदी टेलर्स\nडिलीवरी: ${fmtD(o.delivery_date)}\nबकाया: ${fmt(o.pending_amount)}\nधन्यवाद! 🙏`
+      :`Hello ${o.customer_name}! 🧵\nYour order (*${itemsSummary}*) is ${o.status==='ready'?'ready for pickup':'in progress'} at Zaidi Tailors.\nDelivery: ${fmtD(o.delivery_date)}\nBalance due: ${fmt(o.pending_amount)}\nThank you! 🙏`;
+    const waUrl=`https://wa.me/91${o.customer_phone?.replace(/\D/g,'')}?text=${encodeURIComponent(waMsg)}`;
+
+    return e('div',null,
+      e('button',{className:'btn btn-o btn-sm',onClick:()=>setSelected(null),style:{marginBottom:14}},'← Back'),
+      e('div',{className:'card card-s'},
+        e('div',{className:'dhead'},e('div',{className:'dname'},o.customer_name),e('div',{className:'dsub'},'#'+o.id)),
+        e('div',{className:'drow'},e('span',{className:'dkey'},'Status'),statusBdg(o.status)),
+        e('div',{className:'drow'},e('span',{className:'dkey'},'📅 Delivery'),e('span',{className:'dval'},fmtD(o.delivery_date))),
+        /* Each item breakdown */
+        e('div',{style:{margin:'10px 0 6px',fontWeight:700,fontSize:13}},'Items'),
+        ...(o.items||[]).map((item,idx)=>{
+          const inv=data.inventory.find(x=>x.id===item.inventory_id);
+          return e('div',{key:item.id,style:{background:'var(--surface2)',borderRadius:8,padding:'10px 12px',marginBottom:8}},
+            e('div',{style:{fontWeight:700,marginBottom:6,color:'var(--accent)'}},`${idx+1}. ${item.product}`),
+            e('div',{className:'drow',style:{padding:'5px 0'}},e('span',{className:'dkey'},'Cloth'),e('span',{className:'dval'},inv?`${inv.brand} ${inv.cloth_type} (${inv.color})`:(item.cloth_source==='customer'?'Customer cloth':'—'))),
+            e('div',{className:'drow',style:{padding:'5px 0'}},e('span',{className:'dkey'},'Meters'),e('span',{className:'dval'},(item.meters_used||0)+'m')),
+            e('div',{className:'drow',style:{padding:'5px 0'}},e('span',{className:'dkey'},'Stitching'),e('span',{className:'dval'},fmt(item.stitching_price))),
+            e('div',{className:'drow',style:{padding:'5px 0'}},e('span',{className:'dkey'},'Material'),e('span',{className:'dval'},fmt(item.material_cost))),
+            e('div',{className:'drow',style:{padding:'5px 0',borderBottom:'none'}},e('span',{className:'dkey'},'Item Total'),e('span',{className:'dval',style:{color:'var(--accent)'}},fmt(item.item_total))),
+          );
+        }),
+        e('div',{className:'drow'},e('span',{className:'dkey'},'💰 Grand Total'),e('span',{className:'dval',style:{fontSize:18,color:'var(--accent)'}},fmt(o.total_amount))),
+        e('div',{className:'drow'},e('span',{className:'dkey'},'✅ Advance'),e('span',{className:'dval tgrn'},fmt(o.advance_paid))),
+        e('div',{className:'drow'},e('span',{className:'dkey'},'⏳ Pending'),e('span',{className:`dval ${o.pending_amount>0?'tred':''}`},fmt(o.pending_amount))),
+        o.notes&&e('div',{className:'drow'},e('span',{className:'dkey'},'📝'),e('span',{className:'dval'},o.notes)),
+      ),
+      e('div',{className:'card card-s',style:{marginTop:10}},
+        e('div',{style:{fontWeight:700,marginBottom:10,fontSize:13}},'Update Status →'),
+        e('div',{style:{display:'flex',flexWrap:'wrap',gap:8}},
+          ['pending','in_progress','ready','delivered','cancelled'].map(s=>
+            e('button',{key:s,className:`btn btn-sm ${o.status===s?'btn-p':'btn-o'}`,
+              onClick:()=>{upd(prev=>({...prev,orders:prev.orders.map(x=>x.id===o.id?{...x,status:s}:x)}));toast2(t('com.ok'));}
+            },t('ord.st.'+s))
+          )
+        )
+      ),
+      e('div',{style:{display:'flex',gap:8,marginTop:10}},
+        o.customer_phone&&e('a',{href:waUrl,target:'_blank',className:'btn btn-g',style:{flex:1,justifyContent:'center'}},'💬 '+t('ord.wa')),
+        e('button',{className:'btn btn-o',style:{flex:1},onClick:()=>window.print()},'🖨️ '+t('ord.print')),
+        e('button',{className:'btn btn-o',style:{flex:1},onClick:()=>{setEditing(o);setSelected(null);setShowForm(true);}},t('com.edit')),
+      ),
+    );
+  }
+
+  return e('div',null,
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},t('ord.title'),e('span',{className:'sub'},filtered.length+' orders'))),
+    e(SBar,{value:search,onChange:setSearch,placeholder:'Search name, phone, cloth, city, status…'}),
+    e('div',{className:'frow'},
+      ['all','pending','in_progress','ready','delivered'].map(c=>
+        e('button',{key:c,className:`fchip ${filter===c?'active':''}`,onClick:()=>setFilter(c)},c==='all'?t('ord.all'):t('ord.st.'+c))
+      )
+    ),
+    filtered.length===0?e('div',{className:'empty'},e('div',{className:'ei'},'📋'),e('div',{className:'et'},t('com.nodata')))
+    :filtered.map(o=>e(OCard,{key:o.id,o,t,onClick:()=>setSelected(o.id)})),
+    e('button',{className:'fab',onClick:()=>{setEditing(null);setShowForm(true);}},'＋'),
+    showForm&&e(OrderForm,{t,data,upd,toast2,onClose:()=>{setShowForm(false);setEditing(null);},editing,lang})
+  );
+}
+
+/* ── ORDER FORM (multi-item) ── */
+const newItem=()=>({id:uid(),product:'Shirt',cloth_source:'shop',inventory_id:'',meters_used:1.8,stitching_price:500,material_cost:0,item_total:500,mat_manual:false});
+
+function OrderForm({t,data,upd,toast2,onClose,editing,lang}){
+  const [custName,setCustName]=useState(editing?.customer_name||'');
+  const [custPhone,setCustPhone]=useState(editing?.customer_phone||'');
+  const [delivDate,setDelivDate]=useState(editing?.delivery_date||'');
+  const [advance,setAdvance]=useState(String(editing?.advance_paid||0));
+  const [status,setStatus]=useState(editing?.status||'pending');
+  const [notes,setNotes]=useState(editing?.notes||'');
+  const [items,setItems]=useState(editing?.items?.length?editing.items:[newItem()]);
+  const [listening,setListening]=useState(false);
+
+  const invAvail=data.inventory.filter(i=>i.meters_available>0);
+
+  /* Recalc each item's totals */
+  const calcItem=(item,inventory)=>{
+    let mat=parseFloat(item.material_cost||0);
+    if(!item.mat_manual&&item.cloth_source==='shop'){
+      const inv=inventory.find(i=>i.id===item.inventory_id);
+      mat=parseFloat(((parseFloat(item.meters_used||0))*(inv?.sell_per_meter||0)).toFixed(2));
+    }
+    if(!item.mat_manual&&item.cloth_source==='customer') mat=0;
+    const total=parseFloat((parseFloat(item.stitching_price||0)+mat).toFixed(2));
+    return{...item,material_cost:item.mat_manual?item.material_cost:mat,item_total:total};
+  };
+
+  const updItem=(idx,patch)=>{
+    setItems(prev=>{
+      const next=[...prev];
+      const merged={...next[idx],...patch};
+      // If changing cloth source or inventory, reset manual flag
+      if('cloth_source' in patch||'inventory_id' in patch||'meters_used' in patch) merged.mat_manual=false;
+      next[idx]=calcItem(merged,data.inventory);
+      return next;
+    });
+  };
+
+  const addItem=()=>setItems(prev=>[...prev,newItem()]);
+  const removeItem=idx=>setItems(prev=>prev.filter((_,i)=>i!==idx));
+
+  const pickProduct=(idx,pname)=>{
+    const conf=data.productConfig.find(x=>x.name===pname);
+    updItem(idx,{product:pname,meters_used:conf?.meters||1.8,mat_manual:false});
+  };
+
+  const grandTotal=items.reduce((s,it)=>s+Number(it.item_total||0),0);
+  const pending=parseFloat((grandTotal-parseFloat(advance||0)).toFixed(2));
+
+  const startVoice=()=>{
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){alert('Voice not supported');return;}
+    const rec=new SR();rec.lang=lang==='hi'?'hi-IN':'en-IN';rec.interimResults=false;setListening(true);
+    rec.onresult=ev=>{
+      const txt=ev.results[0][0].transcript;setListening(false);
+      const nm=txt.match(/(?:naam|name|नाम)[:\s]+([^\s,]+)/i);
+      const ph=txt.match(/\d{10}/);
+      if(nm)setCustName(nm[1]);
+      if(ph)setCustPhone(ph[0]);
+      toast2('🎙️ "'+txt+'"');
+    };
+    rec.onerror=()=>setListening(false);rec.onend=()=>setListening(false);rec.start();
+  };
+
+  const handleSave=()=>{
+    if(!custName){toast2('Enter customer name');return;}
+    if(!delivDate){toast2('Enter delivery date');return;}
+    if(items.length===0){toast2('Add at least one item');return;}
+
+    upd(prev=>{
+      let newInv=[...prev.inventory];
+      // Deduct inventory for new orders only
+      if(!editing){
+        items.forEach(item=>{
+          if(item.cloth_source==='shop'&&item.inventory_id&&item.meters_used){
+            newInv=newInv.map(i=>i.id===item.inventory_id
+              ?{...i,meters_available:parseFloat((i.meters_available-parseFloat(item.meters_used)).toFixed(2))}
+              :i);
+          }
+        });
+      }
+      const cust=prev.customers.find(c=>c.name.toLowerCase()===custName.toLowerCase());
+      const newOrd={
+        id:editing?editing.id:uid(),
+        customer_id:cust?.id||'',
+        customer_name:custName,
+        customer_phone:custPhone,
+        items,
+        total_amount:grandTotal,
+        advance_paid:parseFloat(advance||0),
+        pending_amount:pending,
+        delivery_date:delivDate,
+        status,notes,
+        created_at:editing?editing.created_at:tod(),
+      };
+      const newOrds=editing
+        ?prev.orders.map(o=>o.id===editing.id?newOrd:o)
+        :[...prev.orders,newOrd];
+      return{...prev,inventory:newInv,orders:newOrds};
+    });
+    toast2(t('com.ok'));onClose();
+  };
+
+  return e('div',{className:'moverlay',onClick:onClose},
+    e('div',{className:'modal',onClick:ev=>ev.stopPropagation()},
+      e('div',{className:'mhead'},
+        e('span',{className:'mtitle'},editing?'Edit Order':t('ord.new')),
+        e('button',{className:'mclose',onClick:onClose},'✕'),
+      ),
+
+      /* Voice */
+      e('div',{style:{display:'flex',gap:8,marginBottom:16,alignItems:'center'}},
+        e('button',{className:`vbtn ${listening?'on':''}`,onClick:startVoice},'🎙️'),
+        e('span',{style:{fontSize:11,color:'var(--text2)'}},listening?'Listening…':'Tap mic — Hindi/English'),
+      ),
+
+      /* Customer — searchable with phone+address shown */
+      e('div',{className:'fsec'},
+        e('div',{className:'fstitle'},'👤 Customer'),
+        e('div',{className:'fg'},
+          e('label',null,t('ord.name'),e('span',{className:'hi'},' ग्राहक का नाम')),
+          e(SDrop,{
+            value: data.customers.find(c=>c.name===custName&&c.phone===custPhone)?.id || data.customers.find(c=>c.name===custName)?.id || '',
+            onChange: id=>{
+              const c=data.customers.find(x=>x.id===id);
+              if(c){setCustName(c.name);setCustPhone(c.phone||'');}
+            },
+            items: data.customers,
+            placeholder:'Search name, phone, city…',
+            getLabel: c=>c.name,
+            getSub: c=>[c.phone,c.address].filter(Boolean).join(' · ')||'No details',
+            filterFn:(c,q)=>[c.name,c.phone,c.address].some(v=>hits(v,q)),
+          }),
+          e('div',{style:{marginTop:6}},
+            e('input',{placeholder:'Or type a new customer name…',value:custName,
+              style:{border:'1.5px solid var(--border)',borderRadius:'var(--rsm)',padding:'10px 13px',fontSize:13,fontFamily:'var(--font)',width:'100%',color:'var(--text)'},
+              onChange:ev=>setCustName(ev.target.value)}),
+          ),
+        ),
+        e('div',{className:'fg'},
+          e('label',null,t('ord.phone'),e('span',{className:'hi'},' फोन')),
+          e('input',{type:'tel',value:custPhone,onChange:ev=>setCustPhone(ev.target.value),placeholder:'Auto-fills when customer selected'}),
+        ),
+      ),
+
+      /* ── ITEMS (multi) ── */
+      e('div',{className:'fsec'},
+        e('div',{className:'fstitle'},'✂️ Items / आइटम'),
+        ...items.map((item,idx)=>e(ItemBlock,{
+          key:item.id,idx,item,t,
+          data,invAvail,
+          onUpdate:(patch)=>updItem(idx,patch),
+          onRemove:items.length>1?()=>removeItem(idx):null,
+          pickProduct:(p)=>pickProduct(idx,p),
+        })),
+        e('button',{className:'add-item-btn',onClick:addItem},'＋ '+t('ord.addItem')),
+      ),
+
+      /* Totals */
+      e('div',{className:'fsec'},
+        e('div',{className:'fstitle'},'💰 Payment / भुगतान'),
+        e('div',{className:'fgrid'},
+          e('div',{className:'fg'},
+            e('label',null,'Grand Total / कुल रकम'),
+            e('input',{value:fmt(grandTotal),readOnly:true,style:{background:'var(--surface2)',fontWeight:700,color:'var(--accent)'}}),
+          ),
+          e('div',{className:'fg'},
+            e('label',null,t('ord.adv'),e('span',{className:'hi'},' अग्रिम')),
+            e('input',{type:'number',min:0,value:advance,onChange:ev=>setAdvance(ev.target.value)}),
+          ),
+          e('div',{className:'fg'},
+            e('label',null,t('ord.pend'),e('span',{className:'hi'},' बकाया')),
+            e('input',{value:fmt(pending),readOnly:true,style:{background:'var(--surface2)',fontWeight:700,color:pending>0?'var(--red)':'var(--green)'}}),
+          ),
+          e('div',{className:'fg'},
+            e('label',null,t('ord.del'),e('span',{className:'hi'},' डिलीवरी तारीख')),
+            e('input',{type:'date',value:delivDate,onChange:ev=>setDelivDate(ev.target.value)}),
+          ),
+        ),
+        e('div',{className:'fg'},
+          e('label',null,t('ord.notes'),e('span',{className:'hi'},' नोट')),
+          e('textarea',{value:notes,onChange:ev=>setNotes(ev.target.value),placeholder:'Special instructions…'}),
+        ),
+        editing&&e('div',{className:'fg'},
+          e('label',null,t('ord.status')),
+          e('select',{value:status,onChange:ev=>setStatus(ev.target.value)},
+            ['pending','in_progress','ready','delivered','cancelled'].map(s=>e('option',{key:s,value:s},t('ord.st.'+s)))
+          ),
+        ),
+      ),
+
+      e('div',{className:'factions'},
+        e('button',{className:'btn btn-p',onClick:handleSave},'💾 '+t('ord.save')),
+        e('button',{className:'btn btn-o',onClick:onClose},t('com.cancel')),
+      ),
+    )
+  );
+}
+
+/* ── SINGLE ITEM BLOCK inside order form ── */
+function ItemBlock({idx,item,t,data,invAvail,onUpdate,onRemove,pickProduct}){
+  return e('div',{className:'item-row'},
+    e('div',{className:'item-row-header'},
+      e('span',{className:'item-num'},t('ord.itemN')+' '+(idx+1)),
+      onRemove&&e('button',{className:'btn btn-xs btn-o',style:{color:'var(--red)'},onClick:onRemove},t('ord.remItem')),
+    ),
+    /* Product pills */
+    e('div',{className:'ppills'},
+      data.productConfig.map(p=>e('div',{key:p.id,className:`ppill ${item.product===p.name?'sel':''}`,onClick:()=>pickProduct(p.name)},
+        p.name,e('span',{className:'phi'},p.nameHi+' ('+p.meters+'m)')
+      ))
+    ),
+    /* Cloth source */
+    e('div',{className:'spills',style:{marginBottom:10}},
+      e('div',{className:`spill ${item.cloth_source==='shop'?'sel':''}`,onClick:()=>onUpdate({cloth_source:'shop'})},
+        e('div',{className:'spi'},'🏪'),e('span',{className:'spt'},t('ord.shopCloth')),e('span',{className:'sps'},'दुकान का कपड़ा'),
+      ),
+      e('div',{className:`spill ${item.cloth_source==='customer'?'sel':''}`,onClick:()=>onUpdate({cloth_source:'customer'})},
+        e('div',{className:'spi'},'👕'),e('span',{className:'spt'},t('ord.ownCloth')),e('span',{className:'sps'},'ग्राहक का कपड़ा'),
+      ),
+    ),
+    /* Cloth picker (searchable) */
+    item.cloth_source==='shop'&&e('div',{className:'fg',style:{marginBottom:8}},
+      e('label',null,t('ord.selCloth'),e('span',{className:'hi'},' कपड़ा चुनें')),
+      e(SDrop,{
+        value:item.inventory_id,
+        onChange:id=>onUpdate({inventory_id:id,mat_manual:false}),
+        items:invAvail,
+        placeholder:'Search brand, color, cloth type…',
+        getLabel:i=>`${i.brand} — ${i.cloth_type} (${i.color})`,
+        getSub:i=>`${i.meters_available}m · ₹${i.sell_per_meter||0}/m`,
+        filterFn:(i,q)=>[i.brand,i.cloth_type,i.color,i.id].some(v=>hits(v,q)),
+      }),
+    ),
+    /* Item fields */
+    e('div',{className:'item-grid'},
+      e('div',{className:'fg'},
+        e('label',null,t('ord.meters'),e('span',{className:'hi'},' मीटर')),
+        e('input',{type:'number',step:0.1,min:0,value:item.meters_used,onChange:ev=>onUpdate({meters_used:ev.target.value,mat_manual:false})}),
+      ),
+      e('div',{className:'fg'},
+        e('label',null,t('ord.stitch'),e('span',{className:'hi'},' सिलाई')),
+        e('input',{type:'number',min:0,value:item.stitching_price,onChange:ev=>onUpdate({stitching_price:ev.target.value})}),
+      ),
+      e('div',{className:'fg'},
+        e('label',null,
+          t('ord.mat'),
+          e('span',{className:`tag ${item.mat_manual?'tag-man':'tag-auto'}`},item.mat_manual?'Manual':'Auto'),
+        ),
+        e('input',{type:'number',min:0,value:item.material_cost,
+          style:{borderColor:item.mat_manual?'var(--orange)':''},
+          onChange:ev=>onUpdate({material_cost:ev.target.value,mat_manual:true})}),
+        item.mat_manual&&e('span',{className:'reset-lnk',onClick:()=>onUpdate({mat_manual:false})},'↩ Reset to auto'),
+      ),
+      e('div',{className:'fg'},
+        e('label',null,'Item Total'),
+        e('input',{value:fmt(item.item_total),readOnly:true,style:{background:'var(--surface2)',fontWeight:700,color:'var(--accent)'}}),
+      ),
+    ),
+  );
+}
+
+/* ── INVENTORY PAGE ── */
+function InvPage({t,data,upd,toast2}){
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const ef={brand:'',cloth_type:'',color:'',total_meters:'',meters_available:'',total_thaan_cost:'',markup_percentage:60,cost_per_meter:'',sell_per_meter:'',date_added:'',notes:'',image_url:'',image_name:''};
+  const [form,setForm]=useState(ef);
+  const ch=(k,v)=>setForm(f=>{
+    const n={...f,[k]:v};
+    // Auto cost_per_meter from thaan cost
+    const tc=parseFloat(k==='total_thaan_cost'?v:n.total_thaan_cost)||0;
+    const tm=parseFloat(k==='total_meters'?v:n.total_meters)||0;
+    const mk=parseFloat(k==='markup_percentage'?v:n.markup_percentage)||0;
+    if(tc&&tm){
+      n.cost_per_meter=parseFloat((tc/tm).toFixed(2));
+      n.sell_per_meter=parseFloat((n.cost_per_meter*(1+mk/100)).toFixed(2));
+    } else if(k==='cost_per_meter') {
+      n.sell_per_meter=parseFloat((parseFloat(v||0)*(1+mk/100)).toFixed(2));
+    } else if(k==='markup_percentage'&&n.cost_per_meter) {
+      n.sell_per_meter=parseFloat((parseFloat(n.cost_per_meter)*(1+parseFloat(v||0)/100)).toFixed(2));
+    }
+    return n;
+  });
+
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    if(!q)return data.inventory;
+    return data.inventory.filter(i=>[i.brand,i.cloth_type,i.color,i.id,i.notes].some(v=>hits(v,q)));
+  },[data.inventory,search]);
+
+  const openEdit=item=>{setForm({...item,date_added:item.date_added?.split('T')[0]||''});setEditing(item.id);setShowForm(true);};
+  const del=id=>{if(!window.confirm(t('com.confirm')))return;upd(p=>({...p,inventory:p.inventory.filter(i=>i.id!==id)}));toast2('Deleted');};
+  const saveFn=()=>{
+    if(!form.cloth_type||!form.total_meters){toast2('Fill cloth type & meters');return;}
+    upd(prev=>{
+      if(editing)return{...prev,inventory:prev.inventory.map(i=>i.id===editing?{...i,...form,id:editing}:i)};
+      return{...prev,inventory:[...prev.inventory,{...form,id:'I'+uid().slice(0,6).toUpperCase(),meters_available:form.meters_available||form.total_meters}]};
+    });
+    toast2(t('com.ok'));setShowForm(false);setEditing(null);setForm(ef);
+  };
+
+  return e('div',null,
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},t('inv.title'),e('span',{className:'sub'},filtered.length+' rolls'))),
+    e(SBar,{value:search,onChange:setSearch,placeholder:t('inv.search')}),
+    filtered.length===0&&e('div',{className:'empty'},e('div',{className:'ei'},'📦'),e('div',{className:'et'},t('com.nodata'))),
+    filtered.map(item=>{
+      const pct=item.total_meters>0?(item.meters_available/item.total_meters)*100:0;
+      const low=item.meters_available<2;
+      const linked=data.orders.filter(o=>(o.items||[]).some(i=>i.inventory_id===item.id)).length;
+      return e('div',{key:item.id,className:'card card-s',style:{borderLeft:low?'3px solid var(--red)':'3px solid var(--green)'}},
+        e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}},
+          e('div',null,
+            e('div',{style:{fontWeight:700,fontSize:16}},item.brand,' ',e('span',{style:{color:'var(--text2)',fontWeight:400}},item.cloth_type)),
+            e('div',{style:{fontSize:12,color:'var(--text2)',marginTop:2}},item.color,' · ',item.id),
+            low&&e('span',{className:'bdg bdg-canc',style:{marginTop:4}},'⚠️ '+t('inv.low')),
+          ),
+          e('div',{style:{display:'flex',gap:6}},
+            e('button',{className:'btn btn-sm btn-o',onClick:()=>openEdit(item)},'✏️'),
+            e('button',{className:'btn btn-sm btn-o',style:{color:'var(--red)'},onClick:()=>del(item.id)},'🗑️'),
+          ),
+        ),
+        e('div',{className:'ibar-w'},e('div',{className:'ibar',style:{width:`${pct}%`,background:low?'var(--red)':'var(--green)'}})),
+        e('div',{className:'istats'},e('span',null,e('b',null,item.meters_available),'m / ',item.total_meters,'m'),e('span',null,'₹',item.sell_per_meter||0,'/m')),
+        e('div',{className:'istats',style:{marginTop:4,fontSize:11,color:'var(--text2)'}},e('span',null,'Cost ₹',item.cost_per_meter||0,'/m'),e('span',null,linked,' orders')),
+      );
+    }),
+    e('button',{className:'fab',onClick:()=>{setEditing(null);setForm(ef);setShowForm(true);}},'＋'),
+    showForm&&e('div',{className:'moverlay',onClick:()=>setShowForm(false)},
+      e('div',{className:'modal',onClick:ev=>ev.stopPropagation()},
+        e('div',{className:'mhead'},e('span',{className:'mtitle'},editing?t('com.edit'):t('inv.add')),e('button',{className:'mclose',onClick:()=>setShowForm(false)},'✕')),
+        /* Image upload & preview */
+        e('div',{className:'fg',style:{marginBottom:12}},
+          e('label',null,'📷 Cloth Photo'),
+          form.image_url&&e('img',{src:form.image_url,alt:'cloth',style:{width:'100%',maxHeight:160,objectFit:'cover',borderRadius:8,marginBottom:8,border:'1px solid var(--border)'}}),
+          e('input',{type:'file',accept:'image/*',style:{fontSize:12},onChange:ev=>{
+            const file=ev.target.files[0];if(!file)return;
+            const reader=new FileReader();
+            reader.onload=re=>{
+              // Compress via canvas
+              const img=new Image();
+              img.onload=()=>{
+                const canvas=document.createElement('canvas');
+                const max=600;const scale=Math.min(max/img.width,max/img.height,1);
+                canvas.width=img.width*scale;canvas.height=img.height*scale;
+                canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+                ch('image_url',canvas.toDataURL('image/jpeg',0.7));
+                ch('image_name',file.name);
+              };
+              img.src=re.target.result;
+            };
+            reader.readAsDataURL(file);
+          }}),
+          form.image_name&&e('div',{style:{fontSize:10,color:'var(--text2)',marginTop:3}},form.image_name,
+            e('span',{style:{marginLeft:8,color:'var(--red)',cursor:'pointer'},onClick:()=>{ch('image_url','');ch('image_name','');}},'✕ Remove')
+          ),
+        ),
+        e('div',{className:'fgrid'},
+          e('div',{className:'fg'},e('label',null,t('inv.brand')),e('input',{value:form.brand,onChange:ev=>ch('brand',ev.target.value),placeholder:'Raymond, Siyaram…'})),
+          e('div',{className:'fg'},e('label',null,t('inv.type'),e('span',{className:'hi'},' कपड़ा')),e('input',{value:form.cloth_type,onChange:ev=>ch('cloth_type',ev.target.value),placeholder:'Linen, Cotton…'})),
+          e('div',{className:'fg'},e('label',null,t('inv.color'),e('span',{className:'hi'},' रंग')),e('input',{value:form.color,onChange:ev=>ch('color',ev.target.value),placeholder:'White, Blue…'})),
+          e('div',{className:'fg'},e('label',null,t('inv.total')+' (meters)'),e('input',{type:'number',step:0.5,min:0,value:form.total_meters,onChange:ev=>ch('total_meters',ev.target.value)})),
+          editing&&e('div',{className:'fg'},e('label',null,t('inv.avail')),e('input',{type:'number',step:0.5,min:0,value:form.meters_available,onChange:ev=>ch('meters_available',ev.target.value)})),
+          e('div',{className:'fg'},e('label',null,'Total Thaan Cost ₹'),e('input',{type:'number',step:1,min:0,value:form.total_thaan_cost,onChange:ev=>ch('total_thaan_cost',ev.target.value),placeholder:'e.g. 6000'})),
+          e('div',{className:'fg'},e('label',null,'Markup %'),e('input',{type:'number',step:1,min:0,value:form.markup_percentage,onChange:ev=>ch('markup_percentage',ev.target.value),placeholder:'30'})),
+          e('div',{className:'fg'},
+            e('label',null,t('inv.cost'),e('span',{className:'tag tag-auto'},'Auto')),
+            e('input',{type:'number',step:0.01,min:0,value:form.cost_per_meter,onChange:ev=>ch('cost_per_meter',ev.target.value),placeholder:'Auto from Thaan Cost÷Meters'}),
+          ),
+          e('div',{className:'fg'},
+            e('label',null,t('inv.sell'),e('span',{className:'tag tag-auto'},'Auto')),
+            e('input',{type:'number',step:0.01,min:0,value:form.sell_per_meter,onChange:ev=>ch('sell_per_meter',ev.target.value),placeholder:'Auto from Cost×Markup'}),
+          ),
+          e('div',{className:'fg'},e('label',null,t('inv.date')),e('input',{type:'date',value:form.date_added,onChange:ev=>ch('date_added',ev.target.value)})),
+        ),
+        e('div',{className:'factions'},
+          e('button',{className:'btn btn-p',onClick:saveFn},'💾 '+t('inv.save')),
+          e('button',{className:'btn btn-o',onClick:()=>setShowForm(false)},t('com.cancel')),
+        ),
+      )
+    )
+  );
+}
+
+/* ── CUSTOMERS PAGE ── */
+function CustPage({t,data,upd,toast2,goTo,initSelected,clearSelected}){
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const [selected,setSelected]=useState(initSelected||null);
+  const ef={name:'',phone:'',address:'',notes:''};
+  const [form,setForm]=useState(ef);
+
+  useEffect(()=>{if(initSelected){setSelected(initSelected);clearSelected&&clearSelected();};},[]);
+
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    if(!q)return data.customers;
+    return data.customers.filter(c=>[c.name,c.phone,c.address,c.notes].some(v=>hits(v,q)));
+  },[data.customers,search]);
+
+  const saveFn=()=>{
+    if(!form.name){toast2('Enter name');return;}
+    upd(prev=>{
+      if(editing)return{...prev,customers:prev.customers.map(c=>c.id===editing?{...c,...form}:c)};
+      return{...prev,customers:[...prev.customers,{...form,id:'C'+uid().slice(0,6)}]};
+    });
+    toast2(t('com.ok'));setShowForm(false);setEditing(null);setForm(ef);
+  };
+
+  if(selected){
+    const cust=data.customers.find(c=>c.id===selected);
+    if(!cust){setSelected(null);return null;}
+    const meas=data.measurements.filter(m=>m.customer_id===cust.id);
+    const ords=data.orders.filter(o=>o.customer_id===cust.id||o.customer_name===cust.name);
+    const mf=[['shoulder','कंधा'],['chest','छाती'],['waist','कमर'],['hip','कूल्हा'],['sleeve','बांह'],['length','लंबाई'],['collar','गला'],['pant_length','पैंट लंबाई'],['thigh','जांघ'],['bottom','घेरा']];
+    const mk=['shoulder','chest','waist','hip','sleeve','length','collar','pant_length','thigh','bottom'];
+    const mlk={shoulder:'shoulder',chest:'chest',waist:'waist',hip:'hip',sleeve:'sleeve',length:'length',collar:'collar',pant_length:'pantLen',thigh:'thigh',bottom:'bottom'};
+    return e('div',null,
+      e('button',{className:'btn btn-o btn-sm',onClick:()=>setSelected(null),style:{marginBottom:14}},'← Back'),
+      e('div',{className:'card card-s'},
+        e('div',{style:{display:'flex',alignItems:'center',gap:14,marginBottom:16}},
+          e('div',{className:'cavatar',style:{cursor:'default'}},cust.name[0]?.toUpperCase()),
+          e('div',null,
+            e('div',{style:{fontSize:20,fontWeight:700}},cust.name),
+            cust.phone&&e('div',{style:{color:'var(--text2)',fontSize:13}},cust.phone),
+            cust.address&&e('div',{style:{color:'var(--text2)',fontSize:12}},cust.address),
+          ),
+        ),
+        e('div',{style:{fontWeight:700,fontSize:13,marginBottom:8}},'📐 '+t('cust.meas')+' ('+meas.length+')'),
+        meas.length===0?e('p',{style:{color:'var(--text2)',fontSize:13}},t('cust.nomeas'))
+        :meas.map(m=>e('div',{key:m.id,style:{marginBottom:12}},
+            e('div',{style:{fontWeight:600,fontSize:12,color:'var(--text2)',marginBottom:8}},m.label||'Default',' · ',fmtD(m.created_at)),
+            e('div',{className:'mgrid'},
+              mf.map(([k,hi],idx)=>{const v=m[mk[idx]];return v?e('div',{key:k,className:'mitem'},
+                e('div',{className:'mlabel'},t('meas.'+mlk[mk[idx]]),e('span',{className:'hi'},' '+hi)),
+                e('div',{className:'mval'},v,e('span',{className:'munit'},' in')),
+              ):null;}).filter(Boolean)
+            )
+          )),
+        e('div',{className:'divider'}),
+        e('div',{style:{fontWeight:700,fontSize:13,marginBottom:8}},'📋 '+t('cust.ords')+' ('+ords.length+')'),
+        ords.length===0&&e('p',{style:{color:'var(--text2)',fontSize:13}},'No orders yet'),
+        ords.slice(0,5).map(o=>{
+          const products=(o.items||[]).map(i=>i.product).join(', ');
+          return e('div',{key:o.id,onClick:()=>goTo('orders',o.id),style:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderBottom:'1px solid var(--border)',fontSize:13,cursor:'pointer'}},
+            e('div',null,
+              e('div',{style:{fontWeight:600}},products),
+              e('div',{style:{fontSize:11,color:'var(--text2)',marginTop:2}},fmtD(o.delivery_date),' · ',statusBdg(o.status)),
+            ),
+            e('div',{style:{display:'flex',alignItems:'center',gap:8}},
+              e('span',{style:{fontWeight:700}},fmt(o.total_amount)),
+              e('span',{style:{color:'var(--text2)',fontSize:14}},'›'),
+            )
+          );
+        }),
+      )
+    );
+  }
+
+  return e('div',null,
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},t('cust.title'),e('span',{className:'sub'},data.customers.length+' total'))),
+    e(SBar,{value:search,onChange:setSearch,placeholder:t('cust.search')}),
+    e('div',{className:'card card-s'},
+      filtered.length===0&&e('div',{className:'empty'},e('div',{className:'ei'},'👥'),e('div',{className:'et'},t('com.nodata'))),
+      filtered.map(c=>{
+        const mc=data.measurements.filter(m=>m.customer_id===c.id).length;
+        return e('div',{key:c.id,className:'crow'},
+          e('div',{className:'cavatar',onClick:()=>setSelected(c.id)},c.name[0]?.toUpperCase()),
+          e('div',{className:'cinfo',onClick:()=>setSelected(c.id)},
+            e('div',{className:'cname'},c.name),
+            e('div',{className:'csub'},(c.address||'No address'),' · 📐 '+mc),
+          ),
+          e('div',{className:'cacts'},
+            c.phone&&e('a',{href:'tel:'+c.phone,className:'btn btn-sm btn-o'},'📞'),
+            e('button',{className:'btn btn-sm btn-o',onClick:()=>{setForm({name:c.name,phone:c.phone||'',address:c.address||'',notes:c.notes||''});setEditing(c.id);setShowForm(true);}},'✏️'),
+          ),
+        );
+      })
+    ),
+    e('button',{className:'fab',onClick:()=>{setEditing(null);setForm(ef);setShowForm(true);}},'＋'),
+    showForm&&e('div',{className:'moverlay',onClick:()=>setShowForm(false)},
+      e('div',{className:'modal',onClick:ev=>ev.stopPropagation()},
+        e('div',{className:'mhead'},e('span',{className:'mtitle'},editing?t('com.edit'):t('cust.add')),e('button',{className:'mclose',onClick:()=>setShowForm(false)},'✕')),
+        e('div',{className:'fg'},e('label',null,t('cust.name'),e('span',{className:'hi'},' नाम')),e('input',{value:form.name,onChange:ev=>setForm(f=>({...f,name:ev.target.value}))})),
+        e('div',{className:'fg'},e('label',null,t('cust.phone'),e('span',{className:'hi'},' फोन')),e('input',{type:'tel',value:form.phone,onChange:ev=>setForm(f=>({...f,phone:ev.target.value}))})),
+        e('div',{className:'fg'},e('label',null,t('cust.addr'),e('span',{className:'hi'},' पता')),e('input',{value:form.address,onChange:ev=>setForm(f=>({...f,address:ev.target.value}))})),
+        e('div',{className:'fg'},e('label',null,t('cust.notes')),e('textarea',{value:form.notes,onChange:ev=>setForm(f=>({...f,notes:ev.target.value})),rows:2})),
+        e('div',{className:'factions'},
+          e('button',{className:'btn btn-p',onClick:saveFn},'💾 '+t('cust.save')),
+          e('button',{className:'btn btn-o',onClick:()=>setShowForm(false)},t('com.cancel')),
+        ),
+      )
+    )
+  );
+}
+
+/* ── MEASUREMENTS PAGE ── */
+function MeasPage({t,data,upd,toast2}){
+  const [search,setSearch]=useState('');
+  const [showForm,setShowForm]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const [custId,setCustId]=useState('');
+  const em={label:'',shoulder:'',chest:'',waist:'',hip:'',sleeve:'',length:'',collar:'',pant_length:'',thigh:'',bottom:''};
+  const [form,setForm]=useState(em);
+  const custMap=useMemo(()=>Object.fromEntries(data.customers.map(c=>[c.id,c])),[data.customers]);
+
+  const filtered=useMemo(()=>{
+    const q=search.trim().toLowerCase();
+    const base=q?data.measurements.filter(m=>{const c=custMap[m.customer_id];return[c?.name,c?.phone,m.label].some(v=>hits(v,q));}):data.measurements;
+    return [...base].sort((a,b)=>b.created_at?.localeCompare(a.created_at));
+  },[data.measurements,search,custMap]);
+
+  const saveFn=()=>{
+    if(!custId){toast2('Select a customer');return;}
+    upd(prev=>{
+      const rec={...form,customer_id:custId,created_at:tod()};
+      if(editing){rec.id=editing;return{...prev,measurements:prev.measurements.map(m=>m.id===editing?rec:m)};}
+      rec.id='M'+uid();return{...prev,measurements:[...prev.measurements,rec]};
+    });
+    toast2(t('com.ok'));setShowForm(false);setEditing(null);setForm(em);setCustId('');
+  };
+
+  const mf=[['shoulder','कंधा'],['chest','छाती'],['waist','कमर'],['hip','कूल्हा'],['sleeve','बांह'],['length','लंबाई'],['collar','गला'],['pant_length','पैंट लंबाई'],['thigh','जांघ'],['bottom','घेरा']];
+  const lk={shoulder:'shoulder',chest:'chest',waist:'waist',hip:'hip',sleeve:'sleeve',length:'length',collar:'collar',pant_length:'pantLen',thigh:'thigh',bottom:'bottom'};
+
+  return e('div',null,
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},t('meas.title'),e('span',{className:'sub'},filtered.length+' records'))),
+    e(SBar,{value:search,onChange:setSearch,placeholder:t('meas.search')}),
+    filtered.length===0&&e('div',{className:'empty'},e('div',{className:'ei'},'📐'),e('div',{className:'et'},t('com.nodata'))),
+    filtered.map(m=>{
+      const cust=custMap[m.customer_id];
+      return e('div',{key:m.id,className:'card card-s',style:{marginBottom:10}},
+        e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}},
+          e('div',null,
+            e('div',{style:{fontWeight:700,fontSize:15}},cust?.name||'Unknown'),
+            e('div',{style:{fontSize:11,color:'var(--text2)'}},m.label||'Default',' · ',fmtD(m.created_at)),
+          ),
+          e('div',{style:{display:'flex',gap:6}},
+            e('button',{className:'btn btn-sm btn-o',onClick:()=>{setForm({...em,...m});setCustId(m.customer_id);setEditing(m.id);setShowForm(true);}},'✏️'),
+            e('button',{className:'btn btn-sm btn-o',style:{color:'var(--red)'},onClick:()=>{if(window.confirm(t('com.confirm')))upd(p=>({...p,measurements:p.measurements.filter(x=>x.id!==m.id)}));}},'🗑️'),
+          ),
+        ),
+        e('div',{className:'mgrid'},
+          mf.map(([k,hi])=>m[k]?e('div',{key:k,className:'mitem'},
+            e('div',{className:'mlabel'},t('meas.'+lk[k]),e('span',{className:'hi'},' '+hi)),
+            e('div',{className:'mval'},m[k],e('span',{className:'munit'},' in')),
+          ):null).filter(Boolean)
+        ),
+      );
+    }),
+    e('button',{className:'fab',onClick:()=>{setEditing(null);setForm(em);setCustId('');setShowForm(true);}},'＋'),
+    showForm&&e('div',{className:'moverlay',onClick:()=>setShowForm(false)},
+      e('div',{className:'modal',onClick:ev=>ev.stopPropagation()},
+        e('div',{className:'mhead'},e('span',{className:'mtitle'},editing?t('com.edit'):t('meas.add')),e('button',{className:'mclose',onClick:()=>setShowForm(false)},'✕')),
+        /* Searchable customer picker */
+        e('div',{className:'fg'},
+          e('label',null,'Customer / ग्राहक'),
+          e(SDrop,{
+            value:custId,onChange:setCustId,items:data.customers,
+            placeholder:'Type name or phone to search…',
+            getLabel:c=>c.name,
+            getSub:c=>[c.phone,c.address].filter(Boolean).join(' · ')||'No details',
+            filterFn:(c,q)=>[c.name,c.phone,c.address].some(v=>hits(v,q)),
+          }),
+        ),
+        e('div',{className:'fg'},e('label',null,t('meas.lbl')),e('input',{value:form.label,onChange:ev=>setForm(f=>({...f,label:ev.target.value})),placeholder:'e.g. Shirt 2026'})),
+        e('div',{className:'fgrid'},
+          mf.map(([k,hi])=>e('div',{key:k,className:'fg'},
+            e('label',null,t('meas.'+lk[k]),e('span',{className:'hi'},' '+hi)),
+            e('input',{type:'number',step:0.5,min:0,value:form[k],onChange:ev=>setForm(f=>({...f,[k]:ev.target.value})),placeholder:'0 in'}),
+          ))
+        ),
+        e('div',{className:'factions'},
+          e('button',{className:'btn btn-p',onClick:saveFn},'💾 '+t('meas.save')),
+          e('button',{className:'btn btn-o',onClick:()=>setShowForm(false)},t('com.cancel')),
+        ),
+      )
+    )
+  );
+}
+
+/* ── REPORTS PAGE ── */
+function RepPage({t,data}){
+  const [tab,setTab]=useState('sales');
+  const [from,setFrom]=useState(new Date(Date.now()-30*86400000).toISOString().split('T')[0]);
+  const [to,setTo]=useState(tod());
+  const filtered=data.orders.filter(o=>o.created_at>=from&&o.created_at<=to&&o.status!=='cancelled');
+  const totalRev=filtered.reduce((s,o)=>s+Number(o.total_amount||0),0);
+  const col=filtered.reduce((s,o)=>s+Number(o.advance_paid||0),0);
+  const pend=filtered.reduce((s,o)=>s+Number(o.pending_amount||0),0);
+
+  const byProd={};
+  filtered.forEach(o=>(o.items||[]).forEach(i=>{byProd[i.product]=(byProd[i.product]||0)+Number(i.item_total||0);}));
+  const prodE=Object.entries(byProd).sort((a,b)=>b[1]-a[1]);
+  const maxP=prodE[0]?.[1]||1;
+
+  const byCust={};
+  data.orders.filter(o=>o.status!=='cancelled').forEach(o=>{
+    const k=o.customer_name;if(!byCust[k])byCust[k]={n:0,s:0};byCust[k].n++;byCust[k].s+=Number(o.total_amount||0);
+  });
+  const topC=Object.entries(byCust).sort((a,b)=>b[1].s-a[1].s).slice(0,8);
+  const colors=['#e94560','#0984e3','#00b894','#e17055','#6c5ce7','#fdcb6e','#00cec9','#fd79a8'];
+  const drng=e('div',{style:{display:'flex',gap:8,marginBottom:14,alignItems:'center'}},
+    e('label',{style:{fontSize:12,color:'var(--text2)'}},'From'),
+    e('input',{type:'date',value:from,onChange:ev=>setFrom(ev.target.value),style:{flex:1,border:'1.5px solid var(--border)',borderRadius:8,padding:'8px 10px',fontFamily:'var(--font)',fontSize:13}}),
+    e('label',{style:{fontSize:12,color:'var(--text2)'}},'To'),
+    e('input',{type:'date',value:to,onChange:ev=>setTo(ev.target.value),style:{flex:1,border:'1.5px solid var(--border)',borderRadius:8,padding:'8px 10px',fontFamily:'var(--font)',fontSize:13}}),
+  );
+  return e('div',null,
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},'📊 '+t('rep.title'))),
+    e('div',{className:'rtabs'},['sales','inventory','customers'].map(tb=>e('button',{key:tb,className:`rtab ${tab===tb?'active':''}`,onClick:()=>setTab(tb)},t('rep.'+tb)))),
+    drng,
+    tab==='sales'&&e('div',null,
+      e('div',{className:'rkpis'},
+        e('div',{className:'rkpi'},e('div',{className:'rl'},t('rep.to')),e('div',{className:'rv'},filtered.length)),
+        e('div',{className:'rkpi'},e('div',{className:'rl'},t('rep.tr')),e('div',{className:'rv',style:{color:'var(--accent)'}},fmt(totalRev))),
+        e('div',{className:'rkpi'},e('div',{className:'rl'},t('rep.col')),e('div',{className:'rv',style:{color:'var(--green)'}},fmt(col))),
+        e('div',{className:'rkpi'},e('div',{className:'rl'},t('rep.pend')),e('div',{className:'rv',style:{color:'var(--red)'}},fmt(pend))),
+      ),
+      e('div',{className:'card card-s'},
+        e('div',{style:{fontWeight:700,marginBottom:12,fontSize:13}},t('rep.bp')),
+        prodE.length===0&&e('p',{style:{color:'var(--text2)',fontSize:13}},t('com.nodata')),
+        prodE.map(([p,v],i)=>e('div',{key:p,className:'brow'},
+          e('div',{className:'blbl'},p),
+          e('div',{className:'btrack'},e('div',{className:'bfill',style:{width:`${(v/maxP)*100}%`,background:colors[i%colors.length]}},fmt(v)))
+        ))
+      )
+    ),
+    tab==='inventory'&&data.inventory.map(item=>{
+      const used=item.total_meters-item.meters_available;
+      const pct=item.total_meters>0?(used/item.total_meters)*100:0;
+      return e('div',{key:item.id,className:'card card-s',style:{marginBottom:10}},
+        e('div',{style:{fontWeight:700,fontSize:14}},item.brand,' ',item.cloth_type,' — ',item.color),
+        e('div',{className:'ibar-w',style:{margin:'8px 0'}},e('div',{className:'ibar',style:{width:`${pct}%`,background:'var(--orange)'}})),
+        e('div',{className:'istats'},e('span',null,'Used: ',e('b',null,used,'m'),' / ',item.total_meters,'m'),e('span',null,'Stock value: ₹',((item.meters_available||0)*(item.sell_per_meter||0)).toLocaleString('en-IN'))),
+      );
+    }),
+    tab==='customers'&&topC.map(([name,info],i)=>e('div',{key:name,className:'card card-s',style:{display:'flex',alignItems:'center',gap:12,marginBottom:8}},
+      e('div',{style:{width:28,height:28,borderRadius:'50%',background:colors[i%colors.length],display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:700,fontSize:13,flexShrink:0}},i+1),
+      e('div',{style:{flex:1}},e('div',{style:{fontWeight:600,fontSize:14}},name),e('div',{style:{fontSize:11,color:'var(--text2)'}},info.n+' '+t('rep.ords'))),
+      e('div',{style:{fontWeight:700,color:'var(--accent)'}},fmt(info.s)),
+    ))
+  );
+}
+
+/* ── SETTINGS PAGE ── */
+function SetPage({t,data,upd,toast2}){
+  const [config,setConfig]=useState(data.productConfig.map(p=>({...p})));
+  const saveFn=()=>{upd(p=>({...p,productConfig:config}));toast2(t('com.ok'));};
+  return e('div',null,
+    e('div',{className:'ph'},e('h2',{className:'ptitle'},'⚙️ '+t('set.title'))),
+    e('div',{className:'card card-s'},
+      e('div',{style:{fontWeight:700,fontSize:13,marginBottom:4}},t('set.pc')),
+      e('div',{style:{fontSize:11,color:'var(--text2)',marginBottom:14}},'Default meters per product. Applies to new orders only.'),
+      config.map((p,i)=>e('div',{key:p.id,className:'cfg-row'},
+        e('div',{className:'cfg-name'},e('div',{className:'en'},p.name),e('div',{className:'hi'},p.nameHi)),
+        e('input',{className:'cfg-inp',type:'number',step:0.1,min:0,value:p.meters,onChange:ev=>setConfig(c=>c.map((x,j)=>j===i?{...x,meters:parseFloat(ev.target.value)}:x))}),
+        e('span',{style:{fontSize:12,color:'var(--text2)'}},'m'),
+      )),
+      e('div',{className:'factions'},e('button',{className:'btn btn-p',onClick:saveFn},'💾 '+t('set.saveAll'))),
+    ),
+    e('div',{className:'card card-s',style:{marginTop:10}},
+      e('div',{style:{fontWeight:700,fontSize:13,marginBottom:12}},'📊 Data Summary'),
+      [['Orders',data.orders.length],['Customers',data.customers.length],['Inventory Rolls',data.inventory.length],['Measurements',data.measurements.length]]
+        .map(([k,v])=>e('div',{key:k,style:{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--border)',fontSize:13}},
+          e('span',{style:{color:'var(--text2)'}},k),e('span',{style:{fontWeight:700}},v)
+        )),
+      e('button',{className:'btn btn-o',style:{marginTop:14,width:'100%',justifyContent:'center',color:'var(--red)'},
+        onClick:()=>{if(window.confirm('Reset ALL data? Cannot be undone!')){localStorage.removeItem(KEY);window.location.reload();}}},'🗑️ Reset All Data'),
+    ),
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>
