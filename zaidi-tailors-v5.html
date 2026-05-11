@@ -285,9 +285,8 @@ const defData={
     {id:'P7',name:'Sherwani',nameHi:'शेरवानी',meters:5.0},
   ]
 };
-
-const load=()=>{try{const d=JSON.parse(localStorage.getItem(KEY));return d||defData;}catch{return defData;}};
-const save=d=>localStorage.setItem(KEY,JSON.stringify(d));
+const API_URL='https://script.google.com/macros/s/AKfycbw-eR-HFpWfW-Ra6WN3VDeoHumAHKnDVXGTdtmi37tTue6qgzDYFHKGaDaExNnsvwcKsw/exec';
+const load=async()=>{try{const r=await fetch(API_URL);return await r.json();}catch(err){console.error(err);return defData;}};
 const uid=()=>Math.random().toString(36).slice(2,10);
 const fmt=n=>`₹${Number(n||0).toLocaleString('en-IN')}`;
 const fmtD=d=>{if(!d)return'—';return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});};
@@ -351,7 +350,68 @@ function SBar({value,onChange,placeholder}){
 function App(){
   const [lang,setLang]=useState(()=>localStorage.getItem('ztl')||'en');
   const [page,setPage]=useState('dashboard');
-  const [data,setData]=useState(load);
+  const [data,setData]=useState(null);
+  useEffect(()=>{
+
+  const local = localStorage.getItem(KEY);
+
+  if(local){
+    try{
+      setData(JSON.parse(local));
+      return;
+    }catch(err){
+      console.error(err);
+    }
+  }
+
+  load().then(res=>{
+    setData(res);
+    localStorage.setItem(KEY, JSON.stringify(res));
+  });
+
+},[]);
+
+  useEffect(()=>{
+
+  if(!data) return;
+
+  const syncNow = async()=>{
+
+    try{
+
+      const payload = {
+        customers:data.customers || [],
+        inventory:data.inventory || [],
+        measurements:data.measurements || [],
+        orders:data.orders || [],
+        productConfig:data.productConfig || []
+      };
+
+      await fetch(API_URL,{
+        method:'POST',
+        body:JSON.stringify({
+          action:'syncAll',
+          payload
+        })
+      });
+
+      console.log('Auto sync complete');
+
+    }catch(err){
+
+      console.error('Auto sync failed',err);
+
+    }
+  };
+
+  syncNow();
+
+  const interval = setInterval(syncNow, 12 * 60 * 60 * 1000);
+
+  return ()=>clearInterval(interval);
+
+},[data]);
+
   const [toast,setToast]=useState('');
   // Lifted state so Dashboard can deep-link into a specific order or customer
   const [orderSelected,setOrderSelected]=useState(null);
@@ -362,10 +422,10 @@ function App(){
     for(const kk of keys)v=v?.[kk];
     return v??k;
   },[lang]);
+  if(!data){return e('div',{style:{padding:40,fontSize:18}},'Loading Zaidi Tailors...');}
   const tl=()=>{const n=lang==='en'?'hi':'en';setLang(n);localStorage.setItem('ztl',n);};
   const toast2=msg=>{setToast(msg);setTimeout(()=>setToast(''),2200);};
-  const upd=fn=>setData(prev=>{const next=fn(prev);save(next);return next;});
-
+  const upd=fn=>setData(prev=>{const next=fn(prev); localStorage.setItem(KEY,JSON.stringify(next)); return next;});
   const goTo=(pg,id)=>{
     if(pg==='orders'){setOrderSelected(id||null);}
     if(pg==='customers'){setCustSelected(id||null);}
@@ -515,7 +575,7 @@ function OrdersPage({t,data,upd,toast2,lang,initSelected,clearSelected}){
     const waMsg=lang==='hi'
       ?`नमस्ते ${o.customer_name}! 🧵\nआपका ऑर्डर *${itemsSummary}* ${o.status==='ready'?'तैयार है':'चल रहा है'} — ज़ैदी टेलर्स\nडिलीवरी: ${fmtD(o.delivery_date)}\nबकाया: ${fmt(o.pending_amount)}\nधन्यवाद! 🙏`
       :`Hello ${o.customer_name}! 🧵\nYour order (*${itemsSummary}*) is ${o.status==='ready'?'ready for pickup':'in progress'} at Zaidi Tailors.\nDelivery: ${fmtD(o.delivery_date)}\nBalance due: ${fmt(o.pending_amount)}\nThank you! 🙏`;
-    const waUrl=`https://wa.me/91${o.customer_phone?.replace(/\D/g,'')}?text=${encodeURIComponent(waMsg)}`;
+    const waUrl=`https://wa.me/91${String(o.customer_phone || '').replace(/\D/g,'')}?text=${encodeURIComponent(waMsg)}`;
 
     return e('div',null,
       e('button',{className:'btn btn-o btn-sm',onClick:()=>setSelected(null),style:{marginBottom:14}},'← Back'),
@@ -805,9 +865,11 @@ function ItemBlock({idx,item,t,data,invAvail,onUpdate,onRemove,pickProduct}){
         placeholder:'Search brand, color, cloth type…',
         getLabel:i=>`${i.brand} — ${i.cloth_type} (${i.color})`,
         getSub:i=>`${i.meters_available}m · ₹${i.sell_per_meter||0}/m`,
+        renderItem:i=>e('div',{style:{display:'flex',gap:12,alignItems:'center',width:'100%'}},i.image_url&&e('img',{src:i.image_url,style:{width:64,height:64,objectFit:'cover',borderRadius:10,border:'1px solid var(--border)',flexShrink:0}}),e('div',{style:{flex:1}},e('div',{style:{fontWeight:700}},i.brand),e('div',{className:'muted'},`${i.cloth_type} • ${i.color}`),e('div',{style:{fontSize:12,color:'var(--text2)'}},`₹${i.sell_per_meter||0}/m`)),e('div',{style:{color:'#16a34a',fontWeight:700,fontSize:13,whiteSpace:'nowrap'}},`${i.meters_available}m left`)),
         filterFn:(i,q)=>[i.brand,i.cloth_type,i.color,i.id].some(v=>hits(v,q)),
       }),
     ),
+    item.cloth_source==='shop'&&item.inventory_id&&(()=>{const selectedInv=data.inventory.find(i=>i.id===item.inventory_id);return selectedInv&&e('div',{className:'card',style:{padding:12,marginBottom:12}},e('div',{style:{display:'flex',gap:12,alignItems:'center'}},selectedInv.image_url&&e('img',{src:selectedInv.image_url,style:{width:72,height:72,objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}),e('div',{style:{flex:1}},e('div',{style:{fontWeight:700,fontSize:16}},selectedInv.brand),e('div',{className:'muted'},`${selectedInv.cloth_type} • ${selectedInv.color}`),e('div',{style:{color:'#16a34a',fontWeight:700,marginTop:4}},`${selectedInv.meters_available}m left`))),e('div',{style:{fontWeight:700,fontSize:18}},`₹${selectedInv.sell_per_meter||0}/m`));})(),
     /* Item fields */
     e('div',{className:'item-grid'},
       e('div',{className:'fg'},
@@ -815,9 +877,25 @@ function ItemBlock({idx,item,t,data,invAvail,onUpdate,onRemove,pickProduct}){
         e('input',{type:'number',step:0.1,min:0,value:item.meters_used,onChange:ev=>onUpdate({meters_used:ev.target.value,mat_manual:false})}),
       ),
       e('div',{className:'fg'},
-        e('label',null,t('ord.stitch'),e('span',{className:'hi'},' सिलाई')),
-        e('input',{type:'number',min:0,value:item.stitching_price,onChange:ev=>onUpdate({stitching_price:ev.target.value})}),
-      ),
+        e('label',null,'Type'),
+        e('select',{
+          value:item.product||'',
+          onChange:ev=>{
+            const p=data.productConfig.find(x=>x.name===ev.target.value);
+            onUpdate({
+              product:ev.target.value,
+              meters_used:p?.meters||item.meters_used
+      });
+    }
+  },
+          e('option',{value:''},'Select Type'),
+          data.productConfig.map(p=>
+            e('option',{key:p.id,value:p.name},
+              `${p.name} (${p.meters}m)`
+      )
+    )
+  )
+),
       e('div',{className:'fg'},
         e('label',null,
           t('ord.mat'),
@@ -869,13 +947,49 @@ function InvPage({t,data,upd,toast2}){
   const openEdit=item=>{setForm({...item,date_added:item.date_added?.split('T')[0]||''});setEditing(item.id);setShowForm(true);};
   const del=id=>{if(!window.confirm(t('com.confirm')))return;upd(p=>({...p,inventory:p.inventory.filter(i=>i.id!==id)}));toast2('Deleted');};
   const saveFn=()=>{
-    if(!form.cloth_type||!form.total_meters){toast2('Fill cloth type & meters');return;}
-    upd(prev=>{
-      if(editing)return{...prev,inventory:prev.inventory.map(i=>i.id===editing?{...i,...form,id:editing}:i)};
-      return{...prev,inventory:[...prev.inventory,{...form,id:'I'+uid().slice(0,6).toUpperCase(),meters_available:form.meters_available||form.total_meters}]};
-    });
-    toast2(t('com.ok'));setShowForm(false);setEditing(null);setForm(ef);
-  };
+
+  if(form.preview_url && !form.image_url){
+    toast2('Wait for image upload');
+    return;
+  }
+
+  if(!form.cloth_type||!form.total_meters){
+    toast2('Fill cloth type & meters');
+    return;
+  }
+
+  upd(prev=>{
+    if(editing)
+      return{
+        ...prev,
+        inventory:prev.inventory.map(i=>
+          i.id===editing
+            ? {...i,...form,id:editing}
+            : i
+        )
+      };
+
+    return{
+      ...prev,
+      inventory:[
+        ...prev.inventory,
+        {
+          ...form,
+          id:'I'+uid().slice(0,6).toUpperCase(),
+          meters_available:form.meters_available||form.total_meters
+        }
+      ]
+    };
+  });
+
+  toast2(t('com.ok'));
+
+  setShowForm(false);
+
+  setEditing(null);
+
+  setForm(ef);
+};
 
   return e('div',null,
     e('div',{className:'ph'},e('h2',{className:'ptitle'},t('inv.title'),e('span',{className:'sub'},filtered.length+' rolls'))),
@@ -909,25 +1023,82 @@ function InvPage({t,data,upd,toast2}){
         /* Image upload & preview */
         e('div',{className:'fg',style:{marginBottom:12}},
           e('label',null,'📷 Cloth Photo'),
-          form.image_url&&e('img',{src:form.image_url,alt:'cloth',style:{width:'100%',maxHeight:160,objectFit:'cover',borderRadius:8,marginBottom:8,border:'1px solid var(--border)'}}),
-          e('input',{type:'file',accept:'image/*',style:{fontSize:12},onChange:ev=>{
-            const file=ev.target.files[0];if(!file)return;
-            const reader=new FileReader();
-            reader.onload=re=>{
-              // Compress via canvas
-              const img=new Image();
-              img.onload=()=>{
-                const canvas=document.createElement('canvas');
-                const max=600;const scale=Math.min(max/img.width,max/img.height,1);
-                canvas.width=img.width*scale;canvas.height=img.height*scale;
-                canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
-                ch('image_url',canvas.toDataURL('image/jpeg',0.7));
-                ch('image_name',file.name);
-              };
-              img.src=re.target.result;
-            };
-            reader.readAsDataURL(file);
-          }}),
+          (form.preview_url || form.image_url) && e('img',{
+  src: form.preview_url || form.image_url,
+  alt:'cloth',
+  style:{
+    width:'100%',
+    maxHeight:160,
+    objectFit:'cover',
+    borderRadius:8,
+    marginBottom:8,
+    border:'1px solid var(--border)'
+  }
+}),
+          e('input',{type:'file',accept:'image/*',capture:'environment',style:{fontSize:12},
+          onChange: async ev => {
+
+  const file = ev.target.files[0];
+
+  if (!file) return;
+
+    // preview only
+  const previewUrl = URL.createObjectURL(file);
+
+  setForm(f => ({
+  ...f,
+  preview_url: previewUrl,
+  image_name: file.name}));
+  
+  toast2('Uploading image...');
+
+  const reader = new FileReader();
+
+  reader.onload = async re => {
+
+    try {
+
+      const base64 = re.target.result.split(',')[1];
+
+      const r = await fetch(API_URL,{
+        method:'POST',
+        body:JSON.stringify({
+          action:'uploadImage',
+          payload:{
+            fileName:file.name,
+            mimeType:file.type,
+            base64:base64
+          }
+        })
+      });
+
+      const out = await r.json();
+
+      console.log(out);
+
+      if(!out.success){
+        toast2(out.error || 'Upload failed');
+        return;}
+
+      setForm(f => ({
+  ...f,
+  image_url: out.url,
+  image_name: file.name,
+  preview_url: ''
+}));
+
+      toast2('Image uploaded');
+
+    } catch(err){
+
+      console.error(err);
+
+      toast2('Upload failed');
+    }
+  };
+
+  reader.readAsDataURL(file);
+}}),
           form.image_name&&e('div',{style:{fontSize:10,color:'var(--text2)',marginTop:3}},form.image_name,
             e('span',{style:{marginLeft:8,color:'var(--red)',cursor:'pointer'},onClick:()=>{ch('image_url','');ch('image_name','');}},'✕ Remove')
           ),
@@ -1243,6 +1414,38 @@ function SetPage({t,data,upd,toast2}){
         .map(([k,v])=>e('div',{key:k,style:{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--border)',fontSize:13}},
           e('span',{style:{color:'var(--text2)'}},k),e('span',{style:{fontWeight:700}},v)
         )),
+      e('button',{
+  className:'btn btn-g',
+  style:{marginTop:14,width:'100%',justifyContent:'center'},
+  onClick:async()=>{
+  try{
+    const payload = {
+      customers:data.customers || [],
+      inventory:data.inventory || [],
+      measurements:data.measurements || [],
+      orders:data.orders || [],
+      productConfig:data.productConfig || []
+    };
+
+    const r = await fetch(API_URL,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'syncAll',
+        payload
+      })
+    });
+
+    const res = await r.json();
+
+    console.log(res);
+
+    toast2('☁ Sync Complete');
+
+  }catch(err){
+
+    console.error(err);
+
+    toast2('Sync Failed');}}},'☁ Sync Backup'),
       e('button',{className:'btn btn-o',style:{marginTop:14,width:'100%',justifyContent:'center',color:'var(--red)'},
         onClick:()=>{if(window.confirm('Reset ALL data? Cannot be undone!')){localStorage.removeItem(KEY);window.location.reload();}}},'🗑️ Reset All Data'),
     ),
