@@ -312,7 +312,7 @@ function SDrop({value,onChange,items,placeholder,getLabel,getSub,filterFn}){
     return()=>document.removeEventListener('mousedown',h);
   },[]);
 
-  const visible=q?items.filter(i=>filterFn?filterFn(i,q):hits(getLabel(i),q)):items;
+  const visible=q?items.filter(i=>filterFn?filterFn(i,q.toLowerCase()):hits(getLabel(i),q.toLowerCase())):items;
 
   return e('div',{className:'sdwrap',ref},
     e('div',{className:'sdinput'},
