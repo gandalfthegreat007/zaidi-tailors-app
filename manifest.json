@@ -1,7 +1,7 @@
 {
   "name": "Zaidi Tailors",
   "short_name": "Zaidi",
-  "start_url": "/",
+  "start_url": "/zaidi-tailors-app/",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#111827",
