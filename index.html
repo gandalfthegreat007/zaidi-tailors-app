@@ -879,6 +879,11 @@ function ItemBlock({idx,item,t,data,invAvail,onUpdate,onRemove,pickProduct}){
       e('div',{className:'fg'},
         e('label',null,t('ord.meters'),e('span',{className:'hi'},' मीटर')),
         e('input',{type:'number',step:0.1,min:0,value:item.meters_used,onChange:ev=>onUpdate({meters_used:ev.target.value,mat_manual:false})}),
+      e('div',{className:'fg'},
+        e('label',null,t('ord.stitch'),e('span',{className:'hi'},' सिलाई ₹')),
+        e('input',{type:'number',min:0,value:item.stitching_price,onChange:ev=>onUpdate({stitching_price:ev.target.value})}),
+),
+      
       ),
       e('div',{className:'fg'},
         e('label',null,'Type'),
